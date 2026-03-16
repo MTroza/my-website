@@ -1,0 +1,86 @@
+body{
+margin:0;
+font-family:Arial;
+}
+
+/* LOGIN PAGE */
+
+.login-page{
+background:linear-gradient(135deg,#0b4c72,#083b5c);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.login-box{
+background:white;
+padding:40px;
+border-radius:10px;
+text-align:center;
+width:300px;
+}
+
+.login-box input{
+width:90%;
+padding:10px;
+margin:10px 0;
+}
+
+.login-box button{
+padding:10px 20px;
+background:#083b5c;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+/* NAVBAR */
+
+.navbar{
+background:black;
+color:white;
+padding:10px;
+display:flex;
+align-items:center;
+}
+
+.navbar a{
+color:white;
+margin-right:15px;
+text-decoration:none;
+}
+
+.logo{
+font-weight:bold;
+margin-right:20px;
+}
+
+.logout{
+margin-left:auto;
+background:red;
+color:white;
+border:none;
+padding:8px 15px;
+cursor:pointer;
+}
+
+/* HERO */
+
+.hero{
+height:300px;
+background:url("https://images.unsplash.com/photo-1551434678-e076c223a692") center/cover;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:70px;
+font-weight:bold;
+}
+
+/* WELCOME */
+
+.welcome{
+text-align:center;
+padding:60px;
+background:#f4f4f4;
+}
