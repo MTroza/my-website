@@ -1,18 +1,33 @@
-<div class="dashboard-sections">
-  <div class="card" onclick="location.href='projects.html'">
-    <h3>Projects</h3>
-    <p>Manage and view projects.</p>
-  </div>
-  <div class="card" onclick="location.href='directory.html'">
-    <h3>Updated Directory</h3>
-    <p>Access personnel and updated information.</p>
-  </div>
-  <div class="card" onclick="location.href='photos.html'">
-    <h3>Photo Documentation</h3>
-    <p>Upload and view photos.</p>
-  </div>
-  <div class="card" onclick="location.href='repository.html'">
-    <h3>Document Repository</h3>
-    <p>Upload and manage documents.</p>
-  </div>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Updated Directory - DocHub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="checkLogin()">
+
+<div class="navbar">
+  <div class="logo">DocHub</div>
+
+  <a href="dashboard.html">Home</a>
+  <a href="directory.html">Updated Directory</a>
+  <a href="photos.html">Photo Documentation</a>
+  <a href="repository.html">Document Repository</a>
+  <a href="travel-order.html">Travel Order</a>
+  <a href="travel-plan.html">Travel Plan</a>
+  <a href="links.html">Links</a>
+  <a href="notes.html">Notes</a>
+  <a href="contact.html">Contact</a>
+
+  <button class="logout" onclick="logout()">Logout</button>
 </div>
+
+<div class="content">
+  <h1>📊 Updated Directory</h1>
+  <p>List of personnel and information will appear here.</p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
