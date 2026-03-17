@@ -1,54 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>DocHub Dashboard</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.3.2/tailwind.min.css">
+
+<title>DocHub Dashboard</title>
+<link rel="stylesheet" href="style.css">
+
 </head>
-<body class="bg-gray-100 min-h-screen">
 
-  <!-- Sidebar -->
-  <div class="flex">
-    <aside class="w-64 bg-white p-4 shadow-md">
-      <h2 class="font-bold text-xl mb-4">DocHub</h2>
-      <ul>
-        <li class="mb-2"><a href="#" onclick="showModule('repository')">📂 Documents</a></li>
-        <li class="mb-2"><a href="#" onclick="showModule('gallery')">📷 Photo Gallery</a></li>
-        <li class="mb-2"><a href="#" onclick="showModule('notes')">📝 Notes</a></li>
-        <li class="mb-2"><a href="#" onclick="showModule('directory')">📊 Directory</a></li>
-        <li class="mb-2"><a href="#" onclick="showModule('search')">📁 Search</a></li>
-      </ul>
-    </aside>
+<body onload="checkLogin()">
 
-    <!-- Main Content -->
-    <main class="flex-1 p-6" id="mainContent">
-      <h1 class="text-2xl font-bold">Welcome to DocHub Dashboard</h1>
-      <p>Select a module from the sidebar to get started.</p>
-    </main>
-  </div>
+<div class="navbar">
 
-  <script>
-    function showModule(module) {
-      const main = document.getElementById('mainContent');
-      if(module === 'repository') {
-        main.innerHTML = `
-          <h2 class="text-xl font-bold mb-4">📂 Document Repository</h2>
-          <input type="file" id="fileUpload" multiple class="mb-2 p-2 border rounded"/>
-          <button onclick="uploadFiles()" class="bg-blue-500 text-white px-4 py-2 rounded">Upload</button>
-          <div id="fileList" class="mt-4"></div>
-        `;
-      }
-      // You can repeat similar blocks for gallery, notes, directory, search
-    }
+<div class="logo">DocHub</div>
 
-    function uploadFiles() {
-      const files = document.getElementById('fileUpload').files;
-      const list = document.getElementById('fileList');
-      for(let i = 0; i < files.length; i++){
-        list.innerHTML += `<p>${files[i].name}</p>`;
-        // TODO: Upload file to Google Drive using Apps Script
-      }
-    }
-  </script>
+<a href="#">Home</a>
+<a href="#">Projects</a>
+<a href="#">Updated Directory</a>
+<a href="#">Photo Documentation</a>
+<a href="#">Document Repository</a>
+<a href="#">Travel Order</a>
+<a href="#">Travel Plans</a>
+<a href="#">Links</a>
+<a href="#">Notes</a>
+<a href="#">Videos</a>
+
+<button class="logout" onclick="logout()">Logout</button>
+
+</div>
+
+<div class="hero">
+DocHub
+</div>
+
+<div class="welcome">
+
+<h1>Welcome</h1>
+
+<p>
+<strong>DocHub:</strong> Your Centralized Document Repository.  
+Store, share and access team documents in one secure location.
+</p>
+
+<button>Learn More</button>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
