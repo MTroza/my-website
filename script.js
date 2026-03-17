@@ -1,32 +1,22 @@
-// Login function
 function login() {
-  var user = document.getElementById("username").value.trim(); // trim spaces
+  var user = document.getElementById("username").value.trim();
   var pass = document.getElementById("password").value.trim();
 
   if(user === "admin" && pass === "1234") {
-    // Set logged in flag
     localStorage.setItem("loggedIn", "true");
-
-    // Redirect to dashboard
-    window.location.href = "dashboard.html"; 
+    window.location.href = "dashboard.html"; // must exist in same folder
   } else {
     document.getElementById("error").innerText = "Invalid login";
   }
 }
 
-// Check login status (run on dashboard page)
 function checkLogin() {
   if(localStorage.getItem("loggedIn") !== "true") {
-    // Not logged in → redirect to login page
-    window.location.href = "login.html"; 
+    window.location.href = "index.html"; // redirect to login
   }
 }
 
-// Logout function
 function logout() {
-  // Remove login flag
   localStorage.removeItem("loggedIn");
-
-  // Redirect to login page
-  window.location.href = "login.html"; 
+  window.location.href = "index.html"; // redirect to login
 }
