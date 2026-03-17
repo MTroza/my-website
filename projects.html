@@ -1,81 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Projects - DocHub</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* Grid layout for cards */
-    .cards-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .card {
-      background: #f1f1f1;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    }
-
-    .card h3 {
-      margin-top: 0;
-      font-size: 1.2em;
-      color: #083b5c;
-    }
-
-    .card p {
-      font-size: 0.95em;
-      color: #444;
-    }
-  </style>
-</head>
-
-<body onload="checkLogin()">
-
-  <div class="navbar">
-    <div class="logo">DocHub</div>
-    <a href="dashboard.html">Home</a>
-    <a href="projects.html">Projects</a>
-    <a href="directory.html">Updated Directory</a>
-    <a href="notes.html">Notes</a>
-    <button class="logout" onclick="logout()">Logout</button>
+<div class="dashboard-sections">
+  <div class="card" onclick="location.href='projects.html'">
+    <h3>Projects</h3>
+    <p>Manage and view projects.</p>
   </div>
-
-  <div class="content">
-    <h1>📁 Projects</h1>
-    <div class="cards-container">
-      <div class="card" onclick="openProject('Project 1')">
-        <h3>Project 1</h3>
-        <p>Brief description of Project 1.</p>
-      </div>
-      <div class="card" onclick="openProject('Project 2')">
-        <h3>Project 2</h3>
-        <p>Brief description of Project 2.</p>
-      </div>
-      <div class="card" onclick="openProject('Project 3')">
-        <h3>Project 3</h3>
-        <p>Brief description of Project 3.</p>
-      </div>
-      <!-- Add more cards here -->
-    </div>
+  <div class="card" onclick="location.href='directory.html'">
+    <h3>Updated Directory</h3>
+    <p>Access personnel and updated information.</p>
   </div>
-
-  <script src="script.js"></script>
-  <script>
-    function openProject(name) {
-      alert("You clicked on " + name);
-      // Optional: navigate to another HTML page:
-      // window.location.href = name.toLowerCase().replace(/\s/g, '-') + ".html";
-    }
-  </script>
-</body>
-</html>
+  <div class="card" onclick="location.href='photos.html'">
+    <h3>Photo Documentation</h3>
+    <p>Upload and view photos.</p>
+  </div>
+  <div class="card" onclick="location.href='repository.html'">
+    <h3>Document Repository</h3>
+    <p>Upload and manage documents.</p>
+  </div>
+</div>
