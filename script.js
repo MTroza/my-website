@@ -1,19 +1,34 @@
-function checkLogin(){
+function doGet(e) {
 
-var loggedIn = localStorage.getItem("loggedIn");
+var sheet = SpreadsheetApp.getActiveSpreadsheet();
+var usersSheet = sheet.getSheetByName("USERS");
 
-if(loggedIn !== "true"){
-    
-    window.location.href = "index.html"; // go back to login page
-    
+var action = e.parameter.action;
+
+if(action == "login"){
+
+var username = e.parameter.username;
+var password = e.parameter.password;
+
+var data = usersSheet.getDataRange().getValues();
+
+for(var i=1; i<data.length; i++){
+
+var user = data[i][1];
+var pass = data[i][2];
+
+if(user == username && pass == password){
+
+return ContentService.createTextOutput("success");
+
 }
 
 }
 
-function logout(){
+return ContentService.createTextOutput("failed");
 
-localStorage.removeItem("loggedIn");
+}
 
-window.location.href = "index.html"; // redirect to login page
+return ContentService.createTextOutput("no action");
 
 }
