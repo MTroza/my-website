@@ -1,36 +1,32 @@
-function login(){
+// Login function
+function login() {
+  var user = document.getElementById("username").value.trim(); // trim spaces
+  var pass = document.getElementById("password").value.trim();
 
-var user = document.getElementById("username").value;
-var pass = document.getElementById("password").value;
+  if(user === "admin" && pass === "1234") {
+    // Set logged in flag
+    localStorage.setItem("loggedIn", "true");
 
-if(user === "admin" && pass === "1234"){
-
-localStorage.setItem("loggedIn","true");
-
-window.location.href="dashboard.html";
-
-}else{
-
-document.getElementById("error").innerText="Invalid login";
-
+    // Redirect to dashboard
+    window.location.href = "dashboard.html"; 
+  } else {
+    document.getElementById("error").innerText = "Invalid login";
+  }
 }
 
+// Check login status (run on dashboard page)
+function checkLogin() {
+  if(localStorage.getItem("loggedIn") !== "true") {
+    // Not logged in → redirect to login page
+    window.location.href = "login.html"; 
+  }
 }
 
-function checkLogin(){
+// Logout function
+function logout() {
+  // Remove login flag
+  localStorage.removeItem("loggedIn");
 
-if(localStorage.getItem("loggedIn") !== "true"){
-
-window.location.href="login.html";
-
-}
-
-}
-
-function logout(){
-
-localStorage.removeItem("loggedIn");
-
-window.location.href="login.html";
-
+  // Redirect to login page
+  window.location.href = "login.html"; 
 }
