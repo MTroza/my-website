@@ -88,3 +88,33 @@ background:#f4f4f4;
 .content-area{
   padding:30px;
 }
+.dashboard-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: #f1f1f1;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+  margin: 0 0 10px 0;
+  color: #083b5c;
+}
+
+.card p {
+  color: #444;
+  font-size: 0.9em;
+}
