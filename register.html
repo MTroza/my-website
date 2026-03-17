@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Create Account</title>
+</head>
+
+<body>
+
+<h2>Create Account</h2>
+
+<input type="text" id="newUser" placeholder="Username"><br><br>
+
+<input type="password" id="newPass" placeholder="Password"><br><br>
+
+<button onclick="register()">Create Account</button>
+
+<p id="msg"></p>
+
+<script>
+
+function register(){
+
+var user = document.getElementById("newUser").value;
+var pass = document.getElementById("newPass").value;
+
+if(user === "" || pass === ""){
+document.getElementById("msg").innerText="Please fill all fields";
+return;
+}
+
+localStorage.setItem(user, pass);
+
+document.getElementById("msg").innerText="Account Created! Go back to login.";
+
+}
+
+</script>
+
+<br><br>
+<a href="index.html">Back to Login</a>
+
+</body>
+</html>
