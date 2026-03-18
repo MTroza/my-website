@@ -54,5 +54,17 @@ Store, share and access team documents in one secure location.
 
 <script src="script.js"></script>
 
+  function checkLogin() {
+  const user = localStorage.getItem("user");
+
+  if (!user) {
+    window.location.href = "index.html";
+  }
+}
+
+function logout() {
+  localStorage.clear();
+  window.location.href = "index.html";
+}
 </body>
 </html>
