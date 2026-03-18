@@ -18,19 +18,47 @@
 
 <script>
 
+const API_URL = "https://script.google.com/macros/s/AKfycbxj-grklficM1_uUzUgfds_26WuawLURx69uquAUQrt-Le5ZpjeNBfd3hl6HWw7Gui-KQ/exec";
+
 function register(){
 
-var user = document.getElementById("newUser").value;
-var pass = document.getElementById("newPass").value;
+  const user = document.getElementById("newUser").value.trim();
+  const pass = document.getElementById("newPass").value.trim();
 
-if(user === "" || pass === ""){
-document.getElementById("msg").innerText="Please fill all fields";
-return;
-}
+  document.getElementById("msg").innerText = "";
 
-localStorage.setItem(user, pass);
+  if(user === "" || pass === ""){
+    document.getElementById("msg").innerText = "Please fill all fields";
+    return;
+  }
 
-document.getElementById("msg").innerText="Account Created! Go back to login.";
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "register",
+      username: user,
+      password: pass
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+
+    if(data.status === "success"){
+      document.getElementById("msg").innerText = "Account created! Redirecting...";
+      
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1500);
+
+    } 
+    else if(data.status === "exists"){
+      document.getElementById("msg").innerText = "User already exists";
+    }
+
+  })
+  .catch(()=>{
+    document.getElementById("msg").innerText = "Connection error";
+  });
 
 }
 
