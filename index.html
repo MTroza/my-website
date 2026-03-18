@@ -159,180 +159,94 @@ No account yet? Create Account
 
 let registerMode = false;
 
-
-const API_URL = "https://script.google.com/macros/s/AKfycbxj-grklficM1_uUzUgfds_26WuawLURx69uquAUQrt-Le5ZpjeNBfd3hl6HWw7Gui-KQ/exec
-";
+const API_URL = "https://script.google.com/macros/s/AKfycbxj-grklficM1_uUzUgfds_26WuawLURx69uquAUQrt-Le5ZpjeNBfd3hl6HWw7Gui-KQ/exec";
 
 function toggleMode(){
+  registerMode = !registerMode;
 
-registerMode = !registerMode;
+  document.getElementById("error").innerText="";
+  document.getElementById("success").innerText="";
 
-document.getElementById("error").innerText="";
-document.getElementById("success").innerText="";
-
-if(registerMode){
-
-document.getElementById("title").innerText="CREATE ACCOUNT";
-document.getElementById("mainBtn").innerText="REGISTER";
-document.getElementById("switchText").innerText="Already have an account? Login";
-
-}else{
-
-document.getElementById("title").innerText="USER LOGIN";
-document.getElementById("mainBtn").innerText="LOG IN";
-document.getElementById("switchText").innerText="No account yet? Create Account";
-
-}
-
+  if(registerMode){
+    document.getElementById("title").innerText="CREATE ACCOUNT";
+    document.getElementById("mainBtn").innerText="REGISTER";
+    document.getElementById("switchText").innerText="Already have an account? Login";
+  } else {
+    document.getElementById("title").innerText="USER LOGIN";
+    document.getElementById("mainBtn").innerText="LOG IN";
+    document.getElementById("switchText").innerText="No account yet? Create Account";
+  }
 }
 
 function login(){
 
-var user=document.getElementById("username").value;
-var pass=document.getElementById("password").value;
+  const user = document.getElementById("username").value.trim();
+  const pass = document.getElementById("password").value.trim();
 
-document.getElementById("error").innerText="";
-document.getElementById("success").innerText="";
+  document.getElementById("error").innerText="";
+  document.getElementById("success").innerText="";
 
-if(user=="" || pass==""){
-document.getElementById("error").innerText="Please enter username and password";
-return;
-}
-
-
-if(registerMode){
-
-fetch(API_URL, {
-  method: "POST",
-  body: JSON.stringify({
-    action: "register",
-    username: user,
-    password: pass
-  })
-})
-.then(res => res.json())
-.then(data => {
-
-  if(data.status === "success"){
-    document.getElementById("success").innerText="Account created! You can now login.";
-    toggleMode();
-  } 
-  else if(data.status === "exists"){
-    document.getElementById("error").innerText="User already exists";
+  if(user === "" || pass === ""){
+    document.getElementById("error").innerText="Please enter username and password";
+    return;
   }
 
-})
-.catch(err=>{
-  document.getElementById("error").innerText="Connection error";
-});
+  if(registerMode){
+    // REGISTER
+    fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "register",
+        username: user,
+        password: pass
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
 
-}
+      if(data.status === "success"){
+        document.getElementById("success").innerText="Account created! You can now login.";
+        toggleMode();
+      } 
+      else if(data.status === "exists"){
+        document.getElementById("error").innerText="User already exists";
+      }
 
+    })
+    .catch(()=>{
+      document.getElementById("error").innerText="Connection error";
+    });
 
-else{
+  } else {
+    // LOGIN
+    fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "login",
+        username: user,
+        password: pass
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
 
-fetch(API_URL, {
-  method: "POST",
-  body: JSON.stringify({
-    action: "login",
-    username: user,
-    password: pass
-  })
-})
-.then(res => res.json())
-.then(data => {
+      if(data.status === "success"){
 
-  if(data.status === "success"){
+        // MATCHES YOUR DASHBOARD
+        localStorage.setItem("user", user);
+        localStorage.setItem("role", data.role || "User");
 
-    localStorage.setItem("user", user);
-    localStorage.setItem("role", data.role);
+        window.location.href="dashboard.html";
 
-    window.location.href="dashboard.html";
+      } else {
+        document.getElementById("error").innerText="Invalid Username or Password";
+      }
 
-  }else{
-    document.getElementById("error").innerText="Invalid Username or Password";
+    })
+    .catch(()=>{
+      document.getElementById("error").innerText="Connection error";
+    });
   }
-
-})
-.catch(err=>{
-  document.getElementById("error").innerText="Connection error";
-});
-
-}
-
-}
-
-
-
-let registerMode = false;
-
-function toggleMode(){
-
-registerMode = !registerMode;
-
-document.getElementById("error").innerText="";
-document.getElementById("success").innerText="";
-
-if(registerMode){
-
-document.getElementById("title").innerText="CREATE ACCOUNT";
-document.getElementById("mainBtn").innerText="REGISTER";
-document.getElementById("switchText").innerText="Already have an account? Login";
-
-}else{
-
-document.getElementById("title").innerText="USER LOGIN";
-document.getElementById("mainBtn").innerText="LOG IN";
-document.getElementById("switchText").innerText="No account yet? Create Account";
-
-}
-
-}
-
-function login(){
-
-var user=document.getElementById("username").value;
-var pass=document.getElementById("password").value;
-
-document.getElementById("error").innerText="";
-document.getElementById("success").innerText="";
-
-if(user=="" || pass==""){
-document.getElementById("error").innerText="Please enter username and password";
-return;
-}
-
-if(registerMode){
-
-if(localStorage.getItem(user)){
-document.getElementById("error").innerText="User already exists";
-return;
-}
-
-localStorage.setItem(user,pass);
-
-document.getElementById("success").innerText="Account created! You can now login.";
-
-toggleMode();
-
-}else{
-
-var storedPass=localStorage.getItem(user);
-
-if(storedPass===pass){
-
-localStorage.setItem("loggedIn","true");
-
-window.location.href="dashboard.html";
-
-}else{
-
-document.getElementById("error").innerText="Invalid Username or Password";
-
-}
-
-}
-
 }
 
 </script>
