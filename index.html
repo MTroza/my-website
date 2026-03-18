@@ -127,56 +127,28 @@ font-size:14px;
 USER LOGIN
 </div>
 
-<script>
-const API_URL = "https://script.google.com/macros/s/AKfycbxj-grklficM1_uUzUgfds_26WuawLURx69uquAUQrt-Le5ZpjeNBfd3hl6HWw7Gui-KQ/exec";
+<div class="login-body">
 
-function login() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+<div class="avatar">👤</div>
 
-  fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      action: "login",
-      username: username,
-      password: password
-    })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.status === "success") {
-      localStorage.setItem("user", username);
-      localStorage.setItem("role", data.role);
-      window.location.href = "dashboard.html";
-    } else {
-      alert("Invalid username or password");
-    }
-  });
-}
+<input type="text" id="username" class="input-box" placeholder="Username">
 
-function register() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+<input type="password" id="password" class="input-box" placeholder="Password">
 
-  fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      action: "register",
-      username: username,
-      password: password
-    })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.status === "success") {
-      alert("Account created!");
-    } else if (data.status === "exists") {
-      alert("Username already exists");
-    }
-  });
-}
-</script>
-  
+<div class="options">
+<label>
+<input type="checkbox"> Remember me
+</label>
+<span style="cursor:pointer;">Forgot Password?</span>
+</div>
+
+<button class="login-btn" onclick="login()" id="mainBtn">LOG IN</button>
+
+<p id="error"></p>
+<p id="success"></p>
+
+<div class="switch" onclick="toggleMode()" id="switchText">
+No account yet? Create Account
 </div>
 
 </div>
@@ -255,8 +227,56 @@ document.getElementById("error").innerText="Invalid Username or Password";
 }
 
 }
+  <script>
+const API_URL = "https://script.google.com/macros/s/AKfycbxj-grklficM1_uUzUgfds_26WuawLURx69uquAUQrt-Le5ZpjeNBfd3hl6HWw7Gui-KQ/exec";
 
+function login() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "login",
+      username: username,
+      password: password
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "success") {
+      localStorage.setItem("user", username);
+      localStorage.setItem("role", data.role);
+      window.location.href = "dashboard.html";
+    } else {
+      alert("Invalid username or password");
+    }
+  });
+}
+
+function register() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "register",
+      username: username,
+      password: password
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "success") {
+      alert("Account created!");
+    } else if (data.status === "exists") {
+      alert("Username already exists");
+    }
+  });
+}
 </script>
+
 
 </body>
 </html>
