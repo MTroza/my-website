@@ -127,28 +127,53 @@ font-size:14px;
 USER LOGIN
 </div>
 
-<div class="login-body">
+const API_URL = "YOUR_WEB_APP_URL";
 
-<div class="avatar">👤</div>
+function login() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-<input type="text" id="username" class="input-box" placeholder="Username">
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "login",
+      username: username,
+      password: password
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "success") {
+      localStorage.setItem("user", username);
+      localStorage.setItem("role", data.role);
 
-<input type="password" id="password" class="input-box" placeholder="Password">
+      window.location.href = "dashboard.html";
+    } else {
+      alert("Invalid username or password");
+    }
+  });
 
-<div class="options">
-<label>
-<input type="checkbox"> Remember me
-</label>
-<span style="cursor:pointer;">Forgot Password?</span>
-</div>
+  function register() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-<button class="login-btn" onclick="login()" id="mainBtn">LOG IN</button>
-
-<p id="error"></p>
-<p id="success"></p>
-
-<div class="switch" onclick="toggleMode()" id="switchText">
-No account yet? Create Account
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "register",
+      username: username,
+      password: password
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "success") {
+      alert("Account created!");
+    } else if (data.status === "exists") {
+      alert("Username already exists");
+    }
+  });
+}
 </div>
 
 </div>
