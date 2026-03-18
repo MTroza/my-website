@@ -127,7 +127,8 @@ font-size:14px;
 USER LOGIN
 </div>
 
-const API_URL = "YOUR_WEB_APP_URL";
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbxj-grklficM1_uUzUgfds_26WuawLURx69uquAUQrt-Le5ZpjeNBfd3hl6HWw7Gui-KQ/exec";
 
 function login() {
   const username = document.getElementById("username").value;
@@ -146,14 +147,14 @@ function login() {
     if (data.status === "success") {
       localStorage.setItem("user", username);
       localStorage.setItem("role", data.role);
-
       window.location.href = "dashboard.html";
     } else {
       alert("Invalid username or password");
     }
   });
+}
 
-  function register() {
+function register() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
 
@@ -174,6 +175,8 @@ function login() {
     }
   });
 }
+</script>
+  
 </div>
 
 </div>
