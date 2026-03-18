@@ -54,13 +54,10 @@ Store, share and access team documents in one secure location.
 
 <script>
 function checkLogin() {
-  const user = localStorage.getItem("user");
+  const role = localStorage.getItem("role");
 
-  if (!user) {
-    window.location.href = "index.html";
-  } else {
-    // Show username on dashboard
-    document.getElementById("content").innerHTML = "<h1>Welcome, " + user + " 👋</h1>";
+document.getElementById("welcomeText").innerText =
+  "Welcome, " + user + " (" + role + ") 👋";
   }
 }
 
