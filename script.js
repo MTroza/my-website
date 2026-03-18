@@ -1,19 +1,93 @@
+// ✅ Your API (same everywhere)
+const API_URL = "https://script.google.com/macros/s/AKfycbxj-grklficM1_uUzUgfds_26WuawLURx69uquAUQrt-Le5ZpjeNBfd3hl6HWw7Gui-KQ/exec";
 
+
+// =======================
+// 🔐 LOGIN FUNCTION
+// =======================
 function login() {
-  var user = document.getElementById("username").value.trim();
-  var pass = document.getElementById("password").value.trim();
 
-  if(user === "admin" && pass === "1234") {
-    localStorage.setItem("loggedIn", "true");
-    window.location.href = "dashboard.html"; // must exist in same folder
+  const user = document.getElementById("username").value.trim();
+  const pass = document.getElementById("password").value.trim();
+
+  document.getElementById("error").innerText = "";
+
+  if(user === "" || pass === ""){
+    document.getElementById("error").innerText = "Please enter username and password";
+    return;
+  }
+
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "login",
+      username: user,
+      password: pass
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+
+    if(data.status === "success"){
+
+      // ✅ Store user session (MATCHES dashboard.html)
+      localStorage.setItem("user", user);
+      localStorage.setItem("role", data.role || "User");
+
+      window.location.href = "dashboard.html";
+
+    } else {
+      document.getElementById("error").innerText = "Invalid Username or Password";
+    }
+
+  })
+  .catch(()=>{
+    document.getElementById("error").innerText = "Connection error";
+  });
+
+}
+
+
+// =======================
+// 🔒 CHECK LOGIN (Dashboard Protection)
+// =======================
+function checkLogin() {
+
+  const user = localStorage.getItem("user");
+
+  if(!user){
+    window.location.href = "index.html";
   } else {
-    document.getElementById("error").innerText = "Invalid login";
+    const role = localStorage.getItem("role") || "User";
+
+    const welcome = document.getElementById("welcomeText");
+    if(welcome){
+      welcome.innerText = `Welcome, ${user} (${role}) 👋`;
+    }
+
+    document.body.style.display = "block";
   }
 }
 
+
+// =======================
+// 🚪 LOGOUT
+// =======================
+function logout() {
+  localStorage.removeItem("user");
+  localStorage.removeItem("role");
+  window.location.href = "index.html";
+}
+
+
+// =======================
+// 📂 DASHBOARD SECTIONS
+// =======================
 function showSection(section){
 
   const content = document.getElementById("content");
+
+  if(!content) return;
 
   if(section === "home"){
     content.innerHTML = `
@@ -59,14 +133,4 @@ function showSection(section){
     `;
   }
 
-}
-function checkLogin() {
-  if(localStorage.getItem("loggedIn") !== "true") {
-    window.location.href = "index.html"; // redirect to login
-  }
-}
-
-function logout() {
-  localStorage.removeItem("loggedIn");
-  window.location.href = "index.html"; // redirect to login
 }
