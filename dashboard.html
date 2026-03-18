@@ -52,21 +52,24 @@ Store, share and access team documents in one secure location.
 
 </div>
 
-<script src="script.js">
-  function checkLogin() {
+<script>
+function checkLogin() {
   const user = localStorage.getItem("user");
 
   if (!user) {
     window.location.href = "index.html";
+  } else {
+    // Show username on dashboard
+    document.getElementById("content").innerHTML = "<h1>Welcome, " + user + " 👋</h1>";
   }
 }
-  function logout() {
+
+function logout() {
   localStorage.clear();
   window.location.href = "index.html";
 }
 </script>
 
-  
-}
+
 </body>
 </html>
