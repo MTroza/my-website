@@ -249,7 +249,9 @@ function login(){
     });
   }
 }
-
+if(localStorage.getItem("user")){
+  window.location.href = "dashboard.html";
+}
 </script>
 
 </body>
