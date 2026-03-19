@@ -27,23 +27,7 @@
 
 // LOAD FILES
 function loadFiles() {
-  fetch("https://script.google.com/macros/s/AKfycbzDJL_LPM6rSpKN1d4LfNFuQqXxFS3m4cnQt64W-0x7s9EmOZ58PxpW0qDvA_L8bdLw/exec")
-    .then(res => res.json())
-    .then(files => {
-      const list = document.getElementById("fileList");
-      list.innerHTML = "";
-
-      files.forEach(file => {
-        const li = document.createElement("li");
-
-        li.innerHTML = `
-          ${file.name}
-          <a href="${file.url}" target="_blank">Download</a>
-        `;
-
-        list.appendChild(li);
-      });
-    });
+  displayFiles(JSON.parse(localStorage.getItem("files")) || []);
 }
 
 // UPLOAD FILE
@@ -52,28 +36,22 @@ function uploadFile() {
   const file = fileInput.files[0];
 
   if (!file) {
-    alert("Select a file!");
+    alert("Select a file first!");
     return;
   }
 
   const reader = new FileReader();
 
-  reader.onload = function() {
-    const base64 = reader.result.split(",")[1];
+  reader.onload = function(e) {
+    let files = JSON.parse(localStorage.getItem("files")) || [];
 
-    fetch("https://script.google.com/macros/s/AKfycbzDJL_LPM6rSpKN1d4LfNFuQqXxFS3m4cnQt64W-0x7s9EmOZ58PxpW0qDvA_L8bdLw/exec", {
-      method: "POST",
-      body: JSON.stringify({
-        file: base64,
-        fileName: file.name,
-        mimeType: file.type
-      })
-    })
-    .then(res => res.json())
-    .then(data => {
-      alert("Uploaded successfully!");
-      loadFiles();
+    files.push({
+      name: file.name,
+      data: e.target.result
     });
+
+    localStorage.setItem("files", JSON.stringify(files));
+    displayFiles(files);
   };
 
   reader.readAsDataURL(file);
