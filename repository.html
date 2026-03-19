@@ -27,7 +27,7 @@
 
 // LOAD FILES
 function loadFiles() {
-  fetch("YOUR_WEB_APP_URL")
+  fetch("https://script.google.com/macros/s/AKfycbzDJL_LPM6rSpKN1d4LfNFuQqXxFS3m4cnQt64W-0x7s9EmOZ58PxpW0qDvA_L8bdLw/exec")
     .then(res => res.json())
     .then(files => {
       const list = document.getElementById("fileList");
@@ -61,7 +61,7 @@ function uploadFile() {
   reader.onload = function() {
     const base64 = reader.result.split(",")[1];
 
-    fetch("YOUR_WEB_APP_URL", {
+    fetch("https://script.google.com/macros/s/AKfycbzDJL_LPM6rSpKN1d4LfNFuQqXxFS3m4cnQt64W-0x7s9EmOZ58PxpW0qDvA_L8bdLw/exec", {
       method: "POST",
       body: JSON.stringify({
         file: base64,
