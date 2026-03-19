@@ -1,35 +1,114 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Document Repository - DocHub</title>
+  <title>Document Repository</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body onload="checkLogin()">
-
-<div class="navbar">
-  <div class="logo">DocHub</div>
-
-  <a href="dashboard.html">Home</a>
-  <a href="projects.html">Projects</a>
-  <a href="directory.html">Updated Directory</a>
-  <a href="photos.html">Photo Documentation</a>
-  <a href="repository.html">Document Repository</a>
-  <a href="travel-order.html">Travel Order</a>
-  <a href="travel-plan.html">Travel Plan</a>
-  <a href="links.html">Links</a>
-  <a href="notes.html">Notes</a>
-  <a href="contact.html">Contact</a>
-
-  <button class="logout" onclick="logout()">Logout</button>
-</div>
+<body onload="loadFiles()">
 
 <div class="content">
-  <h1>📂 Document Repository</h1>
-  <input type="file" multiple>
-  <button>Upload</button>
+
+  <h2>📂 Document Repository</h2>
+
+  <!-- UPLOAD -->
+  <input type="file" id="fileInput">
+  <button onclick="uploadFile()">Upload</button>
+
+  <!-- SEARCH -->
+  <input type="text" id="searchBox" placeholder="Search documents..." onkeyup="searchFiles()">
+
+  <!-- FILE LIST -->
+  <ul id="fileList"></ul>
+
 </div>
 
-<script src="script.js"></script>
+<script>
+
+// LOAD FILES
+function loadFiles() {
+  displayFiles(JSON.parse(localStorage.getItem("files")) || []);
+}
+
+// UPLOAD FILE
+function uploadFile() {
+  const fileInput = document.getElementById("fileInput");
+  const file = fileInput.files[0];
+
+  if (!file) {
+    alert("Select a file first!");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    let files = JSON.parse(localStorage.getItem("files")) || [];
+
+    files.push({
+      name: file.name,
+      data: e.target.result
+    });
+
+    localStorage.setItem("files", JSON.stringify(files));
+    displayFiles(files);
+  };
+
+  reader.readAsDataURL(file);
+}
+
+// DISPLAY FILES
+function displayFiles(files) {
+  const list = document.getElementById("fileList");
+  list.innerHTML = "";
+
+  files.forEach((file, index) => {
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+      ${file.name}
+      <button onclick="downloadFile(${index})">Download</button>
+      <button onclick="deleteFile(${index})">Delete</button>
+    `;
+
+    list.appendChild(li);
+  });
+}
+
+// DOWNLOAD
+function downloadFile(index) {
+  const files = JSON.parse(localStorage.getItem("files"));
+  const file = files[index];
+
+  const a = document.createElement("a");
+  a.href = file.data;
+  a.download = file.name;
+  a.click();
+}
+
+// DELETE
+function deleteFile(index) {
+  let files = JSON.parse(localStorage.getItem("files"));
+
+  files.splice(index, 1);
+
+  localStorage.setItem("files", JSON.stringify(files));
+  displayFiles(files);
+}
+
+// SEARCH
+function searchFiles() {
+  const keyword = document.getElementById("searchBox").value.toLowerCase();
+  const files = JSON.parse(localStorage.getItem("files")) || [];
+
+  const filtered = files.filter(file =>
+    file.name.toLowerCase().includes(keyword)
+  );
+
+  displayFiles(filtered);
+}
+
+</script>
+
 </body>
 </html>
