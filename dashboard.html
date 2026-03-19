@@ -8,94 +8,70 @@
 
 <body style="display:none;" onload="checkLogin()">
 
-<!-- NAVBAR -->
-<div class="navbar">
-  <div class="logo">DocHub</div>
+<div class="main-container">
 
-  <div class="nav-links">
-    <a href="dashboard.html">Home</a>
-    <a href="projects.html">Projects</a>
-    <a href="directory.html">Directory</a>
-    <a href="photos.html">Photos</a>
-    <a href="repository.html">Repository</a>
-    <a href="notes.html">Notes</a>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>DocHub</h2>
+
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="projects.html">📁 Projects</a>
+    <a href="repository.html">📂 Repository</a>
+    <a href="photos.html">📷 Photos</a>
+    <a href="directory.html">👥 Directory</a>
+    <a href="notes.html">📝 Notes</a>
+    <a href="links.html">🔗 Links</a>
+    <a href="contact.html">📞 Contact</a>
   </div>
 
-  <button class="logout" onclick="logout()">Logout</button>
-</div>
+  <!-- MAIN CONTENT -->
+  <div class="content">
 
-<!-- HERO SECTION -->
-<div class="hero">
-  <div class="hero-text">
-    <h1 id="welcomeText">Welcome</h1>
-    <p>Your centralized document management system.</p>
-    <button>Read More</button>
+    <!-- HEADER -->
+    <div class="header">
+      <h2 id="welcomeText">Welcome</h2>
+      <button onclick="logout()">Logout</button>
+    </div>
+
+    <!-- DASHBOARD CARDS -->
+    <div class="cards">
+
+      <div class="card blue" onclick="location.href='projects.html'">
+        <h3>Projects</h3>
+        <p>Manage ongoing projects</p>
+      </div>
+
+      <div class="card orange" onclick="location.href='repository.html'">
+        <h3>Repository</h3>
+        <p>Upload and store documents</p>
+      </div>
+
+      <div class="card green" onclick="location.href='photos.html'">
+        <h3>Photos</h3>
+        <p>View documentation images</p>
+      </div>
+
+      <div class="card purple" onclick="location.href='directory.html'">
+        <h3>Directory</h3>
+        <p>Team information</p>
+      </div>
+
+      <div class="card red" onclick="location.href='notes.html'">
+        <h3>Notes</h3>
+        <p>Write and manage notes</p>
+      </div>
+
+      <div class="card dark" onclick="location.href='links.html'">
+        <h3>Links</h3>
+        <p>Useful resources</p>
+      </div>
+
+    </div>
+
   </div>
-</div>
-
-<!-- CARD SECTION -->
-<div class="card-container">
-
-  <div class="card blue">
-    <h3>Projects</h3>
-    <p>Manage ongoing projects and files.</p>
-  </div>
-
-  <div class="card orange">
-    <h3>Repository</h3>
-    <p>Store all documents securely.</p>
-  </div>
-
-  <div class="card yellow">
-    <h3>Analytics</h3>
-    <p>Track usage and activities.</p>
-  </div>
 
 </div>
 
-</body>
-
-<!-- NAVBAR -->
-<div class="navbar">
-  <div class="logo">DocHub</div>
-
-  <a href="dashboard.html">Home</a>
-  <a href="projects.html">Projects</a>
-  <a href="directory.html">Updated Directory</a>
-  <a href="photos.html">Photo Documentation</a>
-  <a href="repository.html">Document Repository</a>
-  <a href="travel-order.html">Travel Order</a>
-  <a href="travel-plan.html">Travel Plan</a>
-  <a href="links.html">Links</a>
-  <a href="notes.html">Notes</a>
-  <a href="contact.html">Contact</a>
-
-  <button class="logout" onclick="logout()">Logout</button>
-</div>
-
-<!-- CONTENT -->
-<div id="content" class="content-area">
-  <h1 id="welcomeText">Welcome</h1>
-</div>
-
-<!-- HERO -->
-<div class="hero">
-  DocHub
-</div>
-
-<!-- WELCOME SECTION -->
-<div class="welcome">
-  <h1>Welcome</h1>
-
-  <p>
-    <strong>DocHub:</strong> Your Centralized Document Repository.  
-    Store, share and access team documents in one secure location.
-  </p>
-
-  <button type="button">Learn More</button>
-</div>
-
-<!-- SCRIPT -->
 <script>
 function checkLogin() {
   const user = localStorage.getItem("user");
@@ -107,7 +83,6 @@ function checkLogin() {
     document.getElementById("welcomeText").innerText =
       "Welcome, " + user + " (" + role + ") 👋";
 
-    // Show page after check
     document.body.style.display = "block";
   }
 }
