@@ -6,16 +6,41 @@ const API_URL = "https://script.google.com/macros/s/AKfycbzDJL_LPM6rSpKN1d4LfNFu
 // 🔐 LOGIN FUNCTION
 // =======================
 function login() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-  const user = document.getElementById("username").value.trim();
-  const pass = document.getElementById("password").value.trim();
-
-  document.getElementById("error").innerText = "";
-
-  if(user === "" || pass === ""){
-    document.getElementById("error").innerText = "Please enter username and password";
+  if (!username || !password) {
+    alert("Please enter username and password");
     return;
   }
+
+  // ✅ SHOW LOADING
+  document.getElementById("loadingOverlay").style.display = "flex";
+
+  // Simulate / call your Google Apps Script
+  fetch("https://script.google.com/macros/s/AKfycbzDJL_LPM6rSpKN1d4LfNFuQqXxFS3m4cnQt64W-0x7s9EmOZ58PxpW0qDvA_L8bdLw/exec", {
+    method: "POST",
+    body: JSON.stringify({ username, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+
+    // ✅ HIDE LOADING
+    document.getElementById("loadingOverlay").style.display = "none";
+
+    if (data.success) {
+      localStorage.setItem("user", username);
+      localStorage.setItem("role", data.role);
+      window.location.href = "dashboard.html";
+    } else {
+      alert("Invalid login");
+    }
+  })
+  .catch(err => {
+    document.getElementById("loadingOverlay").style.display = "none";
+    alert("Error connecting to server");
+  });
+}
 
   fetch(API_URL, {
     method: "POST",
