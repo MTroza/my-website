@@ -49,8 +49,34 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 15px;
+}
+/* NEW BOX STYLE */
+.welcome-box {
+  background: #e6f2ff; /* light blue (complementary to dark sidebar) */
+  border-left: 6px solid #0b4c72; /* matches your sidebar */
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.welcome-box h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #0b4c72;
+}
+/* Logout button improvement */
+.header button {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
+.header button:hover {
+  background: #cc0000;
+}
 .header button {
   background: red;
   color: white;
