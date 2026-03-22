@@ -80,12 +80,20 @@ body {
 #welcomeText {
   margin: 0;
   font-size: 18px;
-  color: #333;
+  color: #0b4c72;
 }
 .welcome-box h2 {
   margin: 0;
   font-size: 18px;
   color: #0b4c72;
+}
+.top-header button {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 /* Logout button improvement */
 .header button {
