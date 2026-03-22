@@ -12,10 +12,13 @@ function login() {
   }
 
   // ✅ SHOW LOADING
-  document.getElementById("loadingOverlay").style.display = "flex";
+document.getElementById("loadingOverlay").style.display = "flex";
 
-  // ✅ DISABLE BUTTON (prevent multiple clicks)
-  btn.disabled = true;
+// ✅ DISABLE BUTTON
+btn.disabled = true;
+
+// 🔥 FORCE RENDER FIRST
+setTimeout(() => {
 
   fetch(API_URL, {
     method: "POST",
@@ -27,7 +30,6 @@ function login() {
   .then(res => res.json())
   .then(data => {
 
-    // ✅ HIDE LOADING
     document.getElementById("loadingOverlay").style.display = "none";
     btn.disabled = false;
 
@@ -38,15 +40,18 @@ function login() {
     } else {
       alert("Invalid username or password");
     }
+
   })
   .catch(err => {
     document.getElementById("loadingOverlay").style.display = "none";
     btn.disabled = false;
 
-    alert("Connection error. Please try again.");
+    alert("Connection error");
     console.error(err);
   });
-}
+
+}, 100); // small delay ensures UI updates
+  
   fetch(API_URL, {
     method: "POST",
     body: JSON.stringify({
