@@ -1,13 +1,10 @@
-// ✅ Your API (same everywhere)
+// // ✅ Your API (use this!)
 const API_URL = "https://script.google.com/macros/s/AKfycbzDJL_LPM6rSpKN1d4LfNFuQqXxFS3m4cnQt64W-0x7s9EmOZ58PxpW0qDvA_L8bdLw/exec";
 
-
-// =======================
-// 🔐 LOGIN FUNCTION
-// =======================
 function login() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
+  const btn = document.querySelector("button");
 
   if (!username || !password) {
     alert("Please enter username and password");
@@ -17,9 +14,14 @@ function login() {
   // ✅ SHOW LOADING
   document.getElementById("loadingOverlay").style.display = "flex";
 
-  // Simulate / call your Google Apps Script
-  fetch("https://script.google.com/macros/s/AKfycbzDJL_LPM6rSpKN1d4LfNFuQqXxFS3m4cnQt64W-0x7s9EmOZ58PxpW0qDvA_L8bdLw/exec", {
+  // ✅ DISABLE BUTTON (prevent multiple clicks)
+  btn.disabled = true;
+
+  fetch(API_URL, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({ username, password })
   })
   .then(res => res.json())
@@ -27,21 +29,24 @@ function login() {
 
     // ✅ HIDE LOADING
     document.getElementById("loadingOverlay").style.display = "none";
+    btn.disabled = false;
 
     if (data.success) {
       localStorage.setItem("user", username);
-      localStorage.setItem("role", data.role);
+      localStorage.setItem("role", data.role || "User");
       window.location.href = "dashboard.html";
     } else {
-      alert("Invalid login");
+      alert("Invalid username or password");
     }
   })
   .catch(err => {
     document.getElementById("loadingOverlay").style.display = "none";
-    alert("Error connecting to server");
+    btn.disabled = false;
+
+    alert("Connection error. Please try again.");
+    console.error(err);
   });
 }
-
   fetch(API_URL, {
     method: "POST",
     body: JSON.stringify({
