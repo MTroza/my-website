@@ -195,10 +195,12 @@ function toggleMode(){
     document.getElementById("title").innerText="CREATE ACCOUNT";
     document.getElementById("mainBtn").innerText="REGISTER";
     document.getElementById("switchText").innerText="Already have an account? Login";
+    document.getElementById("email").style.display = "block";
   } else {
     document.getElementById("title").innerText="USER LOGIN";
     document.getElementById("mainBtn").innerText="LOG IN";
     document.getElementById("switchText").innerText="No account yet? Create Account";
+    document.getElementById("email").style.display = "none";
   }
 }
 
