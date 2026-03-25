@@ -160,6 +160,7 @@ body{
 let registerMode = false;
 const API_URL = "https://script.google.com/macros/s/AKfycbzsNoond_VkVnq3jF2cpP2Q9eoKJ7vtPgPMQD49IHTf77RldDakrpe-WR4B8RbRujJjjg/exec";
 
+// Toggle between login and register
 function toggleMode(){
   registerMode = !registerMode;
   document.getElementById("error").innerText="";
@@ -177,6 +178,7 @@ function toggleMode(){
   }
 }
 
+// Login/Register function
 function login(){
   const user = document.getElementById("username").value.trim();
   const pass = document.getElementById("password").value.trim();
@@ -203,6 +205,7 @@ function login(){
   .then(res=>res.json())
   .then(data=>{
     document.getElementById("loadingOverlay").style.display="none";
+
     if(registerMode){
       if(data.status==="success"){
         document.getElementById("success").innerText="Account created! You can now login.";
@@ -214,8 +217,14 @@ function login(){
       }
     } else {
       if(data.status==="success"){
-        localStorage.setItem("user",user);
-        localStorage.setItem("role",data.role||"User");
+        // Store user info based on "Remember me"
+        if(remember){
+          localStorage.setItem("user", user);
+          localStorage.setItem("role", data.role||"User");
+        } else {
+          sessionStorage.setItem("user", user);
+          sessionStorage.setItem("role", data.role||"User");
+        }
         window.location.href="dashboard.html";
       } else{
         document.getElementById("error").innerText="Invalid Username or Password";
@@ -229,7 +238,7 @@ function login(){
 }
 
 // Auto redirect if already logged in
-if(localStorage.getItem("user")){
+if(localStorage.getItem("user") || sessionStorage.getItem("user")){
   window.location.href="dashboard.html";
 }
 </script>
