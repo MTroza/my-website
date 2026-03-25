@@ -135,6 +135,7 @@ body{
   </div>
 </div>
 
+<!-- LOGIN BOX -->
 <div class="login-box">
   <div class="login-header" id="title">USER LOGIN</div>
   <div class="login-body">
@@ -142,16 +143,13 @@ body{
     <input type="text" id="username" class="input-box" placeholder="Username">
     <input type="password" id="password" class="input-box" placeholder="Password">
     <input type="email" id="email" class="input-box" placeholder="Email" style="display:none;">
-
     <div class="options">
       <label><input type="checkbox" id="rememberMe"> Remember me</label>
       <a href="forgot-password.html">Forgot Password?</a>
     </div>
-
     <button id="mainBtn" class="login-btn" type="button" onclick="login()">LOG IN</button>
     <p id="error"></p>
     <p id="success"></p>
-
     <div class="switch" onclick="toggleMode()" id="switchText">No account yet? Create Account</div>
   </div>
 </div>
@@ -178,7 +176,7 @@ function toggleMode(){
   }
 }
 
-// Login/Register function
+// Login/Register
 function login(){
   const user = document.getElementById("username").value.trim();
   const pass = document.getElementById("password").value.trim();
@@ -188,36 +186,40 @@ function login(){
   document.getElementById("error").innerText="";
   document.getElementById("success").innerText="";
 
-  if(user==""||pass==""){document.getElementById("error").innerText="Please enter username and password";return;}
-  if(registerMode && email==""){document.getElementById("error").innerText="Please enter email";return;}
+  if(user=="" || pass==""){
+    document.getElementById("error").innerText="Please enter username and password";
+    return;
+  }
+  if(registerMode && email==""){
+    document.getElementById("error").innerText="Please enter email";
+    return;
+  }
 
   document.getElementById("loadingOverlay").style.display="flex";
 
   fetch(API_URL,{
     method:"POST",
     body:JSON.stringify({
-      action:registerMode?"register":"login",
-      username:user,
-      password:pass,
-      email:registerMode?email:""
+      action: registerMode ? "register" : "login",
+      username: user,
+      password: pass,
+      email: registerMode ? email : ""
     })
   })
-  .then(res=>res.json())
-  .then(data=>{
+  .then(res => res.json())
+  .then(data => {
     document.getElementById("loadingOverlay").style.display="none";
-
     if(registerMode){
       if(data.status==="success"){
         document.getElementById("success").innerText="Account created! You can now login.";
         toggleMode();
       } else if(data.status==="exists"){
         document.getElementById("error").innerText="Username already exists";
-      } else{
+      } else {
         document.getElementById("error").innerText="Registration failed. Try again.";
       }
     } else {
       if(data.status==="success"){
-        // Store user info based on "Remember me"
         if(remember){
           localStorage.setItem("user", user);
           localStorage.setItem("role", data.role||"User");
@@ -226,7 +228,7 @@ function login(){
           sessionStorage.setItem("role", data.role||"User");
         }
         window.location.href="dashboard.html";
-      } else{
+      } else {
         document.getElementById("error").innerText="Invalid Username or Password";
       }
     }
@@ -237,10 +239,13 @@ function login(){
   });
 }
 
-// Auto redirect if already logged in
-if(localStorage.getItem("user") || sessionStorage.getItem("user")){
-  window.location.href="dashboard.html";
-}
+// Auto redirect if already logged in (runs once after page loads)
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("loadingOverlay").style.display = "none";
+  if(localStorage.getItem("user") || sessionStorage.getItem("user")){
+    window.location.href="dashboard.html";
+  }
+});
 </script>
 
 </body>
