@@ -1,146 +1,30 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <title>User Login</title>
-
 <style>
-
+/* Styles are the same as before (login box, loading overlay, etc.) */
 *{box-sizing:border-box;}
-
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background: linear-gradient(135deg,#0b4c72,#083b5c);
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-/* LOGIN BOX */
-.login-box{
-width:400px;
-background:#f1f1f1;
-border-radius:8px;
-overflow:hidden;
-box-shadow:0 12px 35px rgba(0,0,0,0.35);
-}
-
-.login-header{
-background:#1591c4;
-color:white;
-text-align:center;
-padding:22px;
-font-size:26px;
-font-weight:bold;
-}
-
-.login-body{
-padding:40px;
-text-align:center;
-}
-
-.avatar{
-width:90px;
-height:90px;
-background:#d4d4d4;
-border-radius:50%;
-margin:auto;
-margin-bottom:25px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:40px;
-}
-
-.input-box{
-width:100%;
-padding:14px;
-margin:12px 0;
-border:1px solid #bbb;
-border-radius:4px;
-}
-
-.options{
-display:flex;
-justify-content:space-between;
-font-size:13px;
-margin-top:10px;
-}
-
-.login-btn{
-width:100%;
-padding:14px;
-margin-top:25px;
-background:linear-gradient(90deg,#083b5c,#0b4c72);
-color:white;
-border:none;
-font-size:18px;
-cursor:pointer;
-border-radius:4px;
-}
-
-.login-btn:hover{
-opacity:0.9;
-}
-
-.switch{
-margin-top:15px;
-cursor:pointer;
-}
-
-#error{
-color:red;
-margin-top:12px;
-}
-
-#success{
-color:green;
-margin-top:12px;
-}
-
-/* ✅ LOADING OVERLAY */
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.loader-box {
-  background: white;
-  padding: 25px 35px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.spinner {
-  border: 5px solid #eee;
-  border-top: 5px solid #0b4c72;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  margin: auto;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  100% { transform: rotate(360deg); }
-}
-
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0b4c72,#083b5c);height:100vh;display:flex;justify-content:center;align-items:center;}
+.login-box{width:400px;background:#f1f1f1;border-radius:8px;overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,0.35);}
+.login-header{background:#1591c4;color:white;text-align:center;padding:22px;font-size:26px;font-weight:bold;}
+.login-body{padding:40px;text-align:center;}
+.avatar{width:90px;height:90px;background:#d4d4d4;border-radius:50%;margin:auto;margin-bottom:25px;display:flex;align-items:center;justify-content:center;font-size:40px;}
+.input-box{width:100%;padding:14px;margin:12px 0;border:1px solid #bbb;border-radius:4px;}
+.options{display:flex;justify-content:space-between;font-size:13px;margin-top:10px;}
+.login-btn{width:100%;padding:14px;margin-top:25px;background:linear-gradient(90deg,#083b5c,#0b4c72);color:white;border:none;font-size:18px;cursor:pointer;border-radius:4px;}
+.login-btn:hover{opacity:0.9;}
+.switch{margin-top:15px;cursor:pointer;}
+#error{color:red;margin-top:12px;}
+#success{color:green;margin-top:12px;}
+.loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:9999;}
+.loader-box{background:white;padding:25px 35px;border-radius:10px;text-align:center;}
+.spinner{border:5px solid #eee;border-top:5px solid #0b4c72;border-radius:50%;width:40px;height:40px;margin:auto;animation:spin 1s linear infinite;}
+@keyframes spin{100%{transform:rotate(360deg);}}
 </style>
 </head>
-
 <body>
 
-<!-- ✅ LOADING OVERLAY (FIXED POSITION) -->
 <div id="loadingOverlay" class="loading-overlay">
   <div class="loader-box">
     <div class="spinner"></div>
@@ -149,57 +33,41 @@ margin-top:12px;
 </div>
 
 <div class="login-box">
-
-<div class="login-header" id="title">
-USER LOGIN
-</div>
-
-<div class="login-body">
-
-<div class="avatar">👤</div>
-
-<input type="text" id="username" class="input-box" placeholder="Username">
-<input type="password" id="password" class="input-box" placeholder="Password">
-<input type="email" id="email" class="input-box" placeholder="Email" style="display:none;">
-
-<div class="options">
-<label><input type="checkbox"> Remember me</label>
-<a href="forgot-password.html">Forgot Password?</a>
-</div>
-
-<button id="mainBtn" class="login-btn" type="button" onclick="login()">LOG IN</button>
-
-<p id="error"></p>
-<p id="success"></p>
-
-<div class="switch" onclick="toggleMode()" id="switchText">
-No account yet? Create Account
-</div>
-
-</div>
+  <div class="login-header" id="title">USER LOGIN</div>
+  <div class="login-body">
+    <div class="avatar">👤</div>
+    <input type="text" id="username" class="input-box" placeholder="Username">
+    <input type="password" id="password" class="input-box" placeholder="Password">
+    <input type="email" id="email" class="input-box" placeholder="Email" style="display:none;">
+    <div class="options">
+      <label><input type="checkbox"> Remember me</label>
+      <a href="forgot-password.html">Forgot Password?</a>
+    </div>
+    <button id="mainBtn" class="login-btn" type="button" onclick="login()">LOG IN</button>
+    <p id="error"></p>
+    <p id="success"></p>
+    <div class="switch" onclick="toggleMode()" id="switchText">No account yet? Create Account</div>
+  </div>
 </div>
 
 <script>
 let registerMode = false;
-
 const API_URL = "https://script.google.com/macros/s/AKfycbxj-grklficM1_uUzUgfds_26WuawLURx69uquAUQrt-Le5ZpjeNBfd3hl6HWw7Gui-KQ/exec";
 
 function toggleMode(){
   registerMode = !registerMode;
-
   document.getElementById("error").innerText="";
   document.getElementById("success").innerText="";
-
   if(registerMode){
     document.getElementById("title").innerText="CREATE ACCOUNT";
     document.getElementById("mainBtn").innerText="REGISTER";
     document.getElementById("switchText").innerText="Already have an account? Login";
-    document.getElementById("email").style.display = "block";
+    document.getElementById("email").style.display="block";
   } else {
     document.getElementById("title").innerText="USER LOGIN";
     document.getElementById("mainBtn").innerText="LOG IN";
     document.getElementById("switchText").innerText="No account yet? Create Account";
-    document.getElementById("email").style.display = "none";
+    document.getElementById("email").style.display="none";
   }
 }
 
@@ -207,66 +75,40 @@ function login(){
   const user = document.getElementById("username").value.trim();
   const pass = document.getElementById("password").value.trim();
   const email = document.getElementById("email").value.trim();
-
   document.getElementById("error").innerText="";
   document.getElementById("success").innerText="";
 
-  // Validation
-  if(user === "" || pass === ""){
-    document.getElementById("error").innerText="Please enter username and password";
-    return;
-  }
+  if(user==""||pass==""){document.getElementById("error").innerText="Please enter username and password";return;}
+  if(registerMode && email==""){document.getElementById("error").innerText="Please enter email";return;}
 
-  if(registerMode && email === ""){
-    document.getElementById("error").innerText="Please enter email";
-    return;
-  }
+  document.getElementById("loadingOverlay").style.display="flex";
 
-  // Show loading
-  document.getElementById("loadingOverlay").style.display = "flex";
-
-  fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      action: registerMode ? "register" : "login",
-      username: user,
-      password: pass,
-      email: registerMode ? email : "" // Send email only when registering
+  fetch(API_URL,{
+    method:"POST",
+    body:JSON.stringify({
+      action:registerMode?"register":"login",
+      username:user,
+      password:pass,
+      email:registerMode?email:""
     })
   })
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("loadingOverlay").style.display = "none";
-
+  .then(res=>res.json())
+  .then(data=>{
+    document.getElementById("loadingOverlay").style.display="none";
     if(registerMode){
-      if(data.status === "success"){
-        document.getElementById("success").innerText="Account created! You can now login.";
-        toggleMode();
-      } else if(data.status === "exists") {
-        document.getElementById("error").innerText="Username already exists";
-      } else {
-        document.getElementById("error").innerText="Registration failed. Try again.";
-      }
+      if(data.status==="success"){document.getElementById("success").innerText="Account created! You can now login.";toggleMode();}
+      else if(data.status==="exists"){document.getElementById("error").innerText="Username already exists";}
+      else{document.getElementById("error").innerText="Registration failed. Try again.";}
     } else {
-      if(data.status === "success"){
-        localStorage.setItem("user", user);
-        localStorage.setItem("role", data.role || "User");
-        window.location.href="dashboard.html";
-      } else {
-        document.getElementById("error").innerText="Invalid Username or Password";
-      }
+      if(data.status==="success"){localStorage.setItem("user",user);localStorage.setItem("role",data.role||"User");window.location.href="dashboard.html";}
+      else{document.getElementById("error").innerText="Invalid Username or Password";}
     }
   })
-  .catch(() => {
-    document.getElementById("loadingOverlay").style.display = "none";
-    document.getElementById("error").innerText="Connection error. Try again.";
-  });
+  .catch(()=>{document.getElementById("loadingOverlay").style.display="none";document.getElementById("error").innerText="Connection error. Try again."});
 }
 
 // Auto redirect if already logged in
-if(localStorage.getItem("user")){
-  window.location.href = "dashboard.html";
-}
+if(localStorage.getItem("user")){window.location.href="dashboard.html";}
 </script>
 
 </body>
