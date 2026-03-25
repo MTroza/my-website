@@ -180,7 +180,6 @@ No account yet? Create Account
 </div>
 
 <script>
-
 let registerMode = false;
 
 const API_URL = "https://script.google.com/macros/s/AKfycbxj-grklficM1_uUzUgfds_26WuawLURx69uquAUQrt-Le5ZpjeNBfd3hl6HWw7Gui-KQ/exec";
@@ -205,7 +204,6 @@ function toggleMode(){
 }
 
 function login(){
-
   const user = document.getElementById("username").value.trim();
   const pass = document.getElementById("password").value.trim();
   const email = document.getElementById("email").value.trim();
@@ -213,67 +211,62 @@ function login(){
   document.getElementById("error").innerText="";
   document.getElementById("success").innerText="";
 
+  // Validation
   if(user === "" || pass === ""){
-  document.getElementById("error").innerText="Please enter username and password";
-  return;
-}
+    document.getElementById("error").innerText="Please enter username and password";
+    return;
+  }
 
-if(registerMode && email === ""){
-  document.getElementById("error").innerText="Please enter email";
-  return;
-}
+  if(registerMode && email === ""){
+    document.getElementById("error").innerText="Please enter email";
+    return;
+  }
 
-  // ✅ SHOW LOADING
+  // Show loading
   document.getElementById("loadingOverlay").style.display = "flex";
 
-  setTimeout(() => {
-
-   fetch(API_URL, {
-  method: "POST",
-  body: JSON.stringify({
-    action: registerMode ? "register" : "login",
-    username: user,
-    password: pass,
-    email: email
-  })
-})
-    .then(res => res.json())
-    .then(data => {
-
-      // ✅ HIDE LOADING
-      document.getElementById("loadingOverlay").style.display = "none";
-
-      if(registerMode){
-        if(data.status === "success"){
-          document.getElementById("success").innerText="Account created! You can now login.";
-          toggleMode();
-        } else {
-          document.getElementById("error").innerText="User already exists";
-        }
-      } else {
-        if(data.status === "success"){
-          localStorage.setItem("user", user);
-          localStorage.setItem("role", data.role || "User");
-          window.location.href="dashboard.html";
-        } else {
-          document.getElementById("error").innerText="Invalid Username or Password";
-        }
-      }
-
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: registerMode ? "register" : "login",
+      username: user,
+      password: pass,
+      email: registerMode ? email : "" // Send email only when registering
     })
-    .catch(()=>{
-      document.getElementById("loadingOverlay").style.display = "none";
-      document.getElementById("error").innerText="Connection error";
-    });
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("loadingOverlay").style.display = "none";
 
-  }, 100);
+    if(registerMode){
+      if(data.status === "success"){
+        document.getElementById("success").innerText="Account created! You can now login.";
+        toggleMode();
+      } else if(data.status === "exists") {
+        document.getElementById("error").innerText="Username already exists";
+      } else {
+        document.getElementById("error").innerText="Registration failed. Try again.";
+      }
+    } else {
+      if(data.status === "success"){
+        localStorage.setItem("user", user);
+        localStorage.setItem("role", data.role || "User");
+        window.location.href="dashboard.html";
+      } else {
+        document.getElementById("error").innerText="Invalid Username or Password";
+      }
+    }
+  })
+  .catch(() => {
+    document.getElementById("loadingOverlay").style.display = "none";
+    document.getElementById("error").innerText="Connection error. Try again.";
+  });
 }
 
-// ✅ AUTO REDIRECT IF ALREADY LOGGED IN
+// Auto redirect if already logged in
 if(localStorage.getItem("user")){
   window.location.href = "dashboard.html";
 }
-
 </script>
 
 </body>
