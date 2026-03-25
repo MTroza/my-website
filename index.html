@@ -39,7 +39,6 @@ body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0b
     <input type="password" id="password" class="input-box" placeholder="Password">
     <input type="email" id="email" class="input-box" placeholder="Email" style="display:none;">
     <div class="options">
-      <label><input type="checkbox" id="rememberMe"> Remember me</label>
       <a href="forgot-password.html">Forgot Password?</a>
     </div>
     <button id="mainBtn" class="login-btn" type="button" onclick="login()">LOG IN</button>
@@ -52,15 +51,6 @@ body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0b
 <script>
 let registerMode = false;
 const API_URL = "https://script.google.com/macros/s/AKfycbzsNoond_VkVnq3jF2cpP2Q9eoKJ7vtPgPMQD49IHTf77RldDakrpe-WR4B8RbRujJjjg/exec";
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("loadingOverlay").style.display = "none";
-  
-  // Auto redirect if user is already logged in
-  if(localStorage.getItem("user")){
-    window.location.href = "dashboard.html";
-  }
-});
 
 function toggleMode(){
   registerMode = !registerMode;
@@ -83,18 +73,12 @@ function login(){
   const user = document.getElementById("username").value.trim();
   const pass = document.getElementById("password").value.trim();
   const email = document.getElementById("email").value.trim();
-  const remember = document.getElementById("rememberMe").checked;
-  const btn = document.getElementById("mainBtn");
-
   document.getElementById("error").innerText="";
   document.getElementById("success").innerText="";
 
   if(user==""||pass==""){document.getElementById("error").innerText="Please enter username and password";return;}
   if(registerMode && email==""){document.getElementById("error").innerText="Please enter email";return;}
 
-  // Disable button & show overlay
-  btn.disabled = true;
-  btn.style.opacity = "0.7";
   document.getElementById("loadingOverlay").style.display="flex";
 
   fetch(API_URL,{
@@ -106,25 +90,17 @@ function login(){
       email:registerMode?email:""
     })
   })
-  .then(res => res.json())
-  .then(data => {
-    btn.disabled = false;
-    btn.style.opacity = "1";
+  .then(res=>res.json())
+  .then(data=>{
     document.getElementById("loadingOverlay").style.display="none";
-
     if(registerMode){
-      if(data.status==="success"){
-        document.getElementById("success").innerText="Account created! You can now login.";
-        toggleMode();
-      } else if(data.status==="exists"){
-        document.getElementById("error").innerText="Username already exists";
-      } else {
-        document.getElementById("error").innerText="Registration failed. Try again.";
-      }
+      if(data.status==="success"){document.getElementById("success").innerText="Account created! You can now login.";toggleMode();}
+      else if(data.status==="exists"){document.getElementById("error").innerText="Username already exists";}
+      else{document.getElementById("error").innerText="Registration failed. Try again.";}
     } else {
       if(data.status==="success"){
-        localStorage.setItem("user", user);
-        localStorage.setItem("role", data.role || "User");
+        localStorage.setItem("user",user);
+        localStorage.setItem("role",data.role||"User");
         window.location.href="dashboard.html";
       } else {
         document.getElementById("error").innerText="Invalid Username or Password";
@@ -132,12 +108,13 @@ function login(){
     }
   })
   .catch(()=>{
-    btn.disabled = false;
-    btn.style.opacity = "1";
     document.getElementById("loadingOverlay").style.display="none";
     document.getElementById("error").innerText="Connection error. Try again.";
   });
 }
+
+// Auto redirect if already logged in
+if(localStorage.getItem("user")){window.location.href="dashboard.html";}
 </script>
 
 </body>
