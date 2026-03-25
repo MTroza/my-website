@@ -3,7 +3,6 @@
 <head>
 <title>User Login</title>
 <style>
-/* Styles are the same as before (login box, loading overlay, etc.) */
 *{box-sizing:border-box;}
 body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0b4c72,#083b5c);height:100vh;display:flex;justify-content:center;align-items:center;}
 .login-box{width:400px;background:#f1f1f1;border-radius:8px;overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,0.35);}
@@ -40,7 +39,7 @@ body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0b
     <input type="password" id="password" class="input-box" placeholder="Password">
     <input type="email" id="email" class="input-box" placeholder="Email" style="display:none;">
     <div class="options">
-      <label><input type="checkbox"> Remember me</label>
+      <label><input type="checkbox" id="rememberMe"> Remember me</label>
       <a href="forgot-password.html">Forgot Password?</a>
     </div>
     <button id="mainBtn" class="login-btn" type="button" onclick="login()">LOG IN</button>
@@ -49,10 +48,6 @@ body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0b
     <div class="switch" onclick="toggleMode()" id="switchText">No account yet? Create Account</div>
   </div>
 </div>
-
-<label>
-  <input type="checkbox" id="rememberMe"> Remember me
-</label>
 
 <script>
 let registerMode = false;
@@ -79,6 +74,7 @@ function login(){
   const user = document.getElementById("username").value.trim();
   const pass = document.getElementById("password").value.trim();
   const email = document.getElementById("email").value.trim();
+  const remember = document.getElementById("rememberMe").checked;
   document.getElementById("error").innerText="";
   document.getElementById("success").innerText="";
 
@@ -104,15 +100,26 @@ function login(){
       else if(data.status==="exists"){document.getElementById("error").innerText="Username already exists";}
       else{document.getElementById("error").innerText="Registration failed. Try again.";}
     } else {
-      if(data.status==="success"){localStorage.setItem("user",user);localStorage.setItem("role",data.role||"User");window.location.href="dashboard.html";}
-      else{document.getElementById("error").innerText="Invalid Username or Password";}
+      if(data.status==="success"){
+        if(remember){
+          localStorage.setItem("user", user);
+          localStorage.setItem("role", data.role || "User");
+        } else {
+          sessionStorage.setItem("user", user);
+          sessionStorage.setItem("role", data.role || "User");
+        }
+        window.location.href="dashboard.html";
+      } else {
+        document.getElementById("error").innerText="Invalid Username or Password";
+      }
     }
   })
   .catch(()=>{document.getElementById("loadingOverlay").style.display="none";document.getElementById("error").innerText="Connection error. Try again."});
 }
 
 // Auto redirect if already logged in
-if(localStorage.getItem("user")){window.location.href="dashboard.html";}
+const storedUser = localStorage.getItem("user") || sessionStorage.getItem("user");
+if(storedUser){window.location.href="dashboard.html";}
 </script>
 
 </body>
