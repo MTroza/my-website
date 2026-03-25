@@ -222,3 +222,14 @@ li button {
 @keyframes spin {
   100% { transform: rotate(360deg); }
 }
+
+/* FORGOT PASSWORD STYLE */
+.options a {
+  text-decoration: none;
+  color: #0b4c72;
+  font-size: 14px;
+}
+
+.options a:hover {
+  text-decoration: underline;
+}
