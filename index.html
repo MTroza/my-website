@@ -214,13 +214,14 @@ function login(){
   document.getElementById("success").innerText="";
 
   if(user === "" || pass === ""){
-    document.getElementById("error").innerText="Please enter username and password";
-    return;
-  if(registerMode && email === ""){
+  document.getElementById("error").innerText="Please enter username and password";
+  return;
+}
+
+if(registerMode && email === ""){
   document.getElementById("error").innerText="Please enter email";
   return;
-    }
-  }
+}
 
   // ✅ SHOW LOADING
   document.getElementById("loadingOverlay").style.display = "flex";
