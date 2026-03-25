@@ -4,130 +4,26 @@
 <title>User Login</title>
 <style>
 *{box-sizing:border-box;}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(135deg,#0b4c72,#083b5c);
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-/* LOGIN BOX */
-.login-box{
-  width:400px;
-  background:#f1f1f1;
-  border-radius:8px;
-  overflow:hidden;
-  box-shadow:0 12px 35px rgba(0,0,0,0.35);
-}
-
-.login-header{
-  background:#1591c4;
-  color:white;
-  text-align:center;
-  padding:22px;
-  font-size:26px;
-  font-weight:bold;
-}
-
-.login-body{
-  padding:40px;
-  text-align:center;
-}
-
-.avatar{
-  width:90px;
-  height:90px;
-  background:#d4d4d4;
-  border-radius:50%;
-  margin:auto;
-  margin-bottom:25px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:40px;
-}
-
-.input-box{
-  width:100%;
-  padding:14px;
-  margin:12px 0;
-  border:1px solid #bbb;
-  border-radius:4px;
-}
-
-.options{
-  display:flex;
-  justify-content:space-between;
-  font-size:13px;
-  margin-top:10px;
-}
-
-.login-btn{
-  width:100%;
-  padding:14px;
-  margin-top:25px;
-  background:linear-gradient(90deg,#083b5c,#0b4c72);
-  color:white;
-  border:none;
-  font-size:18px;
-  cursor:pointer;
-  border-radius:4px;
-}
-
-.login-btn:hover{
-  opacity:0.9;
-}
-
-.switch{
-  margin-top:15px;
-  cursor:pointer;
-}
-
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0b4c72,#083b5c);height:100vh;display:flex;justify-content:center;align-items:center;}
+.login-box{width:400px;background:#f1f1f1;border-radius:8px;overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,0.35);}
+.login-header{background:#1591c4;color:white;text-align:center;padding:22px;font-size:26px;font-weight:bold;}
+.login-body{padding:40px;text-align:center;}
+.avatar{width:90px;height:90px;background:#d4d4d4;border-radius:50%;margin:auto;margin-bottom:25px;display:flex;align-items:center;justify-content:center;font-size:40px;}
+.input-box{width:100%;padding:14px;margin:12px 0;border:1px solid #bbb;border-radius:4px;}
+.options{display:flex;justify-content:space-between;font-size:13px;margin-top:10px;}
+.login-btn{width:100%;padding:14px;margin-top:25px;background:linear-gradient(90deg,#083b5c,#0b4c72);color:white;border:none;font-size:18px;cursor:pointer;border-radius:4px;}
+.login-btn:hover{opacity:0.9;}
+.switch{margin-top:15px;cursor:pointer;}
 #error{color:red;margin-top:12px;}
 #success{color:green;margin-top:12px;}
-
-/* LOADING OVERLAY */
-.loading-overlay{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.5);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-.loader-box{
-  background:white;
-  padding:25px 35px;
-  border-radius:10px;
-  text-align:center;
-}
-
-.spinner{
-  border:5px solid #eee;
-  border-top:5px solid #0b4c72;
-  border-radius:50%;
-  width:40px;
-  height:40px;
-  margin:auto;
-  animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-  100%{transform:rotate(360deg);}
-}
+.loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:9999;}
+.loader-box{background:white;padding:25px 35px;border-radius:10px;text-align:center;}
+.spinner{border:5px solid #eee;border-top:5px solid #0b4c72;border-radius:50%;width:40px;height:40px;margin:auto;animation:spin 1s linear infinite;}
+@keyframes spin{100%{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
 
-<!-- LOADING OVERLAY -->
 <div id="loadingOverlay" class="loading-overlay">
   <div class="loader-box">
     <div class="spinner"></div>
@@ -135,7 +31,6 @@ body{
   </div>
 </div>
 
-<!-- LOGIN BOX -->
 <div class="login-box">
   <div class="login-header" id="title">USER LOGIN</div>
   <div class="login-body">
@@ -158,7 +53,15 @@ body{
 let registerMode = false;
 const API_URL = "https://script.google.com/macros/s/AKfycbzsNoond_VkVnq3jF2cpP2Q9eoKJ7vtPgPMQD49IHTf77RldDakrpe-WR4B8RbRujJjjg/exec";
 
-// Toggle between login and register
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("loadingOverlay").style.display = "none";
+  
+  // Auto redirect if user is already logged in
+  if(localStorage.getItem("user")){
+    window.location.href = "dashboard.html";
+  }
+});
+
 function toggleMode(){
   registerMode = !registerMode;
   document.getElementById("error").innerText="";
@@ -176,39 +79,39 @@ function toggleMode(){
   }
 }
 
-// Login/Register
 function login(){
   const user = document.getElementById("username").value.trim();
   const pass = document.getElementById("password").value.trim();
   const email = document.getElementById("email").value.trim();
   const remember = document.getElementById("rememberMe").checked;
+  const btn = document.getElementById("mainBtn");
 
   document.getElementById("error").innerText="";
   document.getElementById("success").innerText="";
 
-  if(user=="" || pass==""){
-    document.getElementById("error").innerText="Please enter username and password";
-    return;
-  }
-  if(registerMode && email==""){
-    document.getElementById("error").innerText="Please enter email";
-    return;
-  }
+  if(user==""||pass==""){document.getElementById("error").innerText="Please enter username and password";return;}
+  if(registerMode && email==""){document.getElementById("error").innerText="Please enter email";return;}
 
+  // Disable button & show overlay
+  btn.disabled = true;
+  btn.style.opacity = "0.7";
   document.getElementById("loadingOverlay").style.display="flex";
 
   fetch(API_URL,{
     method:"POST",
     body:JSON.stringify({
-      action: registerMode ? "register" : "login",
-      username: user,
-      password: pass,
-      email: registerMode ? email : ""
+      action:registerMode?"register":"login",
+      username:user,
+      password:pass,
+      email:registerMode?email:""
     })
   })
   .then(res => res.json())
   .then(data => {
+    btn.disabled = false;
+    btn.style.opacity = "1";
     document.getElementById("loadingOverlay").style.display="none";
+
     if(registerMode){
       if(data.status==="success"){
         document.getElementById("success").innerText="Account created! You can now login.";
@@ -220,13 +123,8 @@ function login(){
       }
     } else {
       if(data.status==="success"){
-        if(remember){
-          localStorage.setItem("user", user);
-          localStorage.setItem("role", data.role||"User");
-        } else {
-          sessionStorage.setItem("user", user);
-          sessionStorage.setItem("role", data.role||"User");
-        }
+        localStorage.setItem("user", user);
+        localStorage.setItem("role", data.role || "User");
         window.location.href="dashboard.html";
       } else {
         document.getElementById("error").innerText="Invalid Username or Password";
@@ -234,18 +132,12 @@ function login(){
     }
   })
   .catch(()=>{
+    btn.disabled = false;
+    btn.style.opacity = "1";
     document.getElementById("loadingOverlay").style.display="none";
     document.getElementById("error").innerText="Connection error. Try again.";
   });
 }
-
-// Auto redirect if already logged in (runs once after page loads)
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("loadingOverlay").style.display = "none";
-  if(localStorage.getItem("user") || sessionStorage.getItem("user")){
-    window.location.href="dashboard.html";
-  }
-});
 </script>
 
 </body>
