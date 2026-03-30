@@ -15,16 +15,16 @@ body{background:url("bg.jpg") no-repeat center center/cover;height:100vh;}
 .header h1{font-size:42px;}
 .header span{display:block;font-size:22px;}
 .container{display:flex;gap:25px;padding:20px 40px;}
-.add-project{width:260px;height:420px;background:#1e88e5;color:white;padding:20px;border-radius:5px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:0.3s;}
-.add-project:hover{background:#1565c0;}
-.projects{flex:1;display:grid;grid-template-columns: repeat(3, 1fr);gap:20px;}
-.card{height:180px;background:#dcdcdc;display:flex;align-items:center;justify-content:center;font-size:24px;color:#0d3c6e;border-radius:5px;cursor:pointer;transition:0.3s;text-align:center;padding:10px;}
-.card:hover{transform:scale(1.05);}
+.add-project{width:260px;height:420px;background:#1e88e5;color:white;padding:20px;border-radius:5px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:0.3s, box-shadow 0.3s;}
+.add-project:hover{background:#1565c0;box-shadow:0 4px 20px rgba(0,0,0,0.3);}
+.projects{flex:1;display:grid;grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));gap:20px;}
+.card{height:180px;background:#dcdcdc;display:flex;align-items:center;justify-content:center;font-size:24px;color:#0d3c6e;border-radius:8px;cursor:pointer;transition:0.3s, box-shadow 0.3s, transform 0.3s;opacity:0;transform:translateY(20px);text-align:center;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+.card.visible{opacity:1;transform:translateY(0);}
+.card:hover{transform:scale(1.05);box-shadow:0 6px 15px rgba(0,0,0,0.25);}
 </style>
 </head>
 <body>
 
-<!-- TOP MENU -->
 <div class="topbar">
   <div class="menu">
     <a href="dashboard.html">Home</a>
@@ -39,7 +39,6 @@ body{background:url("bg.jpg") no-repeat center center/cover;height:100vh;}
   <button class="logout" onclick="logout()">Logout</button>
 </div>
 
-<!-- HEADER -->
 <div class="header">
   <div class="logo">⮟</div>
   <div>
@@ -48,7 +47,6 @@ body{background:url("bg.jpg") no-repeat center center/cover;height:100vh;}
   </div>
 </div>
 
-<!-- CONTENT -->
 <div class="container">
   <div class="add-project" onclick="addProject()">
     <h2>Add Project +</h2>
@@ -58,10 +56,14 @@ body{background:url("bg.jpg") no-repeat center center/cover;height:100vh;}
 </div>
 
 <script>
-// ✅ Your actual Google Apps Script Web App URL
 const API_URL = "https://script.google.com/macros/s/AKfycbwP7zLQoFsbYzfvW22j4sXs8lcDrgkd2NHC2-6kWItyW4BiIwnANdGpMWMA2pNDknD7/exec";
 
-// Load all projects
+// Fade-in helper
+function fadeIn(el){
+  requestAnimationFrame(() => el.classList.add('visible'));
+}
+
+// Load projects
 async function loadProjects(){
   try{
     const res = await fetch(API_URL);
@@ -75,6 +77,7 @@ async function loadProjects(){
       div.dataset.id = p.id;
       div.ondblclick = () => renameProject(div);
       container.appendChild(div);
+      fadeIn(div);
     });
   }catch(err){
     console.error(err);
@@ -91,8 +94,8 @@ async function addProject(){
   const tempCard = document.createElement("div");
   tempCard.className = "card";
   tempCard.innerText = name;
-  tempCard.style.opacity = "0.6"; // visual cue while saving
   container.appendChild(tempCard);
+  fadeIn(tempCard);
 
   try{
     const res = await fetch(API_URL, {
@@ -101,7 +104,7 @@ async function addProject(){
     });
     const result = await res.json();
     if(result.success){
-      loadProjects(); // reload to sync ID and name
+      loadProjects();
     }else{
       alert("Failed to add project: " + (result.error || "Unknown error"));
       container.removeChild(tempCard);
@@ -134,10 +137,8 @@ async function renameProject(card){
   }
 }
 
-// Logout
 function logout(){ window.location.href = "index.html"; }
 
-// Auto-load projects on page open
 window.onload = loadProjects;
 </script>
 
