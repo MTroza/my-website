@@ -195,13 +195,13 @@ body{
   <!-- PROJECT CARDS -->
   <div class="projects">
 
-    <div class="card">Project 1</div>
-    <div class="card">Project 2</div>
-    <div class="card">Project 3</div>
+  <div class="card" ondblclick="renameProject(this)">Project 1</div>
+  <div class="card" ondblclick="renameProject(this)">Project 2</div>
+  <div class="card" ondblclick="renameProject(this)">Project 3</div>
 
-    <div class="card dark">Project 4</div>
-    <div class="card dark">Project 5</div>
-    <div class="card dark">Project 6</div>
+  <div class="card dark" ondblclick="renameProject(this)">Project 4</div>
+  <div class="card dark" ondblclick="renameProject(this)">Project 5</div>
+  <div class="card dark" ondblclick="renameProject(this)">Project 6</div>
 
   </div>
 
@@ -211,6 +211,16 @@ body{
 function addProject(){
   alert("Add Project Clicked!");
 }
+  <script>
+function renameProject(card){
+  let currentName = card.innerText;
+  let newName = prompt("Rename project:", currentName);
+
+  if(newName && newName.trim() !== ""){
+    card.innerText = newName;
+  }
+}
+</script>
 </script>
 
 </body>
