@@ -68,7 +68,7 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:24px;
+  font-size:20px;
 }
 
 .header h1{
@@ -87,7 +87,7 @@ body{
   padding:20px 40px;
 }
 
-/* ADD PROJECT PANEL */
+/* ADD PROJECT */
 .add-project{
   width:260px;
   height:420px;
@@ -99,6 +99,7 @@ body{
   flex-direction:column;
   justify-content:space-between;
   cursor:pointer;
+  transition:0.3s;
 }
 
 .add-project:hover{
@@ -115,23 +116,18 @@ body{
 
 /* CARDS */
 .card{
-  height:190px;
+  height:180px;
   background:#dcdcdc;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:26px;
+  font-size:24px;
   color:#0d3c6e;
   border-radius:5px;
   cursor:pointer;
   transition:0.3s;
   text-align:center;
   padding:10px;
-}
-
-.card.dark{
-  background:#0d3c6e;
-  color:white;
 }
 
 .card:hover{
@@ -143,9 +139,8 @@ body{
 
 <body>
 
-<!-- TOP MENU + LOGOUT -->
+<!-- TOP MENU -->
 <div class="topbar">
-
   <div class="menu">
     <a href="dashboard.html">Home</a>
     <a href="projects.html" class="active">Projects</a>
@@ -158,7 +153,6 @@ body{
   </div>
 
   <button class="logout" onclick="logout()">Logout</button>
-
 </div>
 
 <!-- HEADER -->
@@ -180,54 +174,91 @@ body{
   </div>
 
   <!-- PROJECT GRID -->
-  <div class="projects" id="projectContainer">
-
-    <div class="card" ondblclick="renameProject(this)">Project 1</div>
-    <div class="card" ondblclick="renameProject(this)">Project 2</div>
-    <div class="card" ondblclick="renameProject(this)">Project 3</div>
-
-    <div class="card dark" ondblclick="renameProject(this)">Project 4</div>
-    <div class="card dark" ondblclick="renameProject(this)">Project 5</div>
-    <div class="card dark" ondblclick="renameProject(this)">Project 6</div>
-
-  </div>
+  <div class="projects" id="projectContainer"></div>
 
 </div>
 
 <script>
 
-// LOGOUT → redirect to login page
+// ✅ IMPORTANT: Paste your Google Apps Script Web App URL here
+const API_URL = "https://script.google.com/macros/s/AKfycbx16NL6D2PGchI-2RFDLHPFHXOd93FAa3Ql9oBWPCI/dev";
+
+
+// 🔄 LOAD PROJECTS FROM GOOGLE SHEETS
+async function loadProjects(){
+  try{
+    let res = await fetch(API_URL);
+    let data = await res.json();
+
+    let container = document.getElementById("projectContainer");
+    container.innerHTML = "";
+
+    data.forEach(p => {
+      let div = document.createElement("div");
+      div.className = "card";
+      div.innerText = p.name;
+
+      // store ID
+      div.dataset.id = p.id;
+
+      // double click to rename
+      div.ondblclick = function(){
+        renameProject(this);
+      };
+
+      container.appendChild(div);
+    });
+
+  }catch(err){
+    alert("Error loading data. Check your API URL.");
+    console.error(err);
+  }
+}
+
+
+// ➕ ADD PROJECT
+async function addProject(){
+  let name = prompt("Enter project name:");
+  if(!name || name.trim() === "") return;
+
+  await fetch(API_URL, {
+    method:"POST",
+    body: JSON.stringify({
+      action:"add",
+      name:name
+    })
+  });
+
+  loadProjects();
+}
+
+
+// ✏️ RENAME PROJECT
+async function renameProject(card){
+  let newName = prompt("Rename project:", card.innerText);
+  if(!newName || newName.trim() === "") return;
+
+  await fetch(API_URL, {
+    method:"POST",
+    body: JSON.stringify({
+      action:"rename",
+      id: card.dataset.id,
+      name: newName
+    })
+  });
+
+  loadProjects();
+}
+
+
+// 🔓 LOGOUT
 function logout(){
   window.location.href = "index.html";
 }
 
-// ADD PROJECT
-function addProject(){
-  let name = prompt("Enter project name:");
-  if(name && name.trim() !== ""){
-    let container = document.getElementById("projectContainer");
 
-    let newCard = document.createElement("div");
-    newCard.className = "card";
-    newCard.innerText = name;
-
-    newCard.ondblclick = function(){
-      renameProject(this);
-    };
-
-    container.appendChild(newCard);
-  }
-}
-
-// RENAME PROJECT
-function renameProject(card){
-  let currentName = card.innerText;
-  let newName = prompt("Rename project:", currentName);
-
-  if(newName && newName.trim() !== ""){
-    card.innerText = newName;
-  }
-}
+// 🚀 AUTO LOAD ON PAGE OPEN
+window.onload = loadProjects;
 
 </script>
 
