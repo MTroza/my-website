@@ -11,40 +11,57 @@
   font-family: Arial, sans-serif;
 }
 
-/* BACKGROUND */
+/* BODY */
 body{
-  background: url("bg.jpg") no-repeat center center/cover;
+  display:flex;
+  background:url("bg.jpg") no-repeat center center/cover;
   height:100vh;
 }
 
-/* NAVBAR */
-.navbar{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:black;
-  padding:10px;
-  position:relative;
+/* SIDEBAR */
+.sidebar{
+  width:220px;
+  background:#154c6a;
+  color:white;
+  padding-top:20px;
+  height:100vh;
 }
 
-.navbar a{
+.sidebar a{
+  display:block;
+  padding:15px 20px;
   color:white;
   text-decoration:none;
-  margin:0 15px;
-  font-size:16px;
+  font-size:18px;
+  transition:0.3s;
 }
 
-.navbar a.active{
-  font-weight:bold;
+.sidebar a:hover{
+  background:#1e88e5;
+}
+
+.sidebar a.active{
+  background:#0d3c6e;
+}
+
+/* MAIN CONTENT */
+.main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+
+/* TOP BAR */
+.topbar{
+  display:flex;
+  justify-content:flex-end;
+  padding:10px 20px;
 }
 
 .logout{
-  position:absolute;
-  right:20px;
-  top:8px;
   background:#ddd;
   border:none;
-  padding:5px 12px;
+  padding:6px 12px;
   cursor:pointer;
 }
 
@@ -53,7 +70,7 @@ body{
   display:flex;
   align-items:center;
   gap:15px;
-  padding:30px 40px;
+  padding:20px 40px;
   color:white;
 }
 
@@ -69,23 +86,22 @@ body{
 }
 
 .header h1{
-  font-size:42px;
+  font-size:40px;
 }
 
 .header span{
   display:block;
-  font-size:22px;
-  font-weight:300;
+  font-size:20px;
 }
 
-/* MAIN */
+/* CONTENT */
 .container{
   display:flex;
   gap:25px;
   padding:20px 40px;
 }
 
-/* ADD PROJECT PANEL */
+/* ADD PROJECT */
 .add-project{
   width:260px;
   height:420px;
@@ -97,32 +113,10 @@ body{
   flex-direction:column;
   justify-content:space-between;
   cursor:pointer;
-  transition:0.3s;
 }
 
 .add-project:hover{
   background:#1565c0;
-}
-
-.add-project h2{
-  font-size:28px;
-}
-
-.plus{
-  font-size:28px;
-  margin-left:10px;
-}
-
-.arrow{
-  align-self:flex-end;
-  border:2px solid white;
-  border-radius:50%;
-  width:55px;
-  height:55px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
 }
 
 /* GRID */
@@ -135,18 +129,16 @@ body{
 
 /* CARDS */
 .card{
-  height:190px;
+  height:180px;
   background:#dcdcdc;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:26px;
+  font-size:24px;
   color:#0d3c6e;
   border-radius:5px;
   cursor:pointer;
   transition:0.3s;
-  text-align:center;
-  padding:10px;
 }
 
 .card.dark{
@@ -157,70 +149,62 @@ body{
 .card:hover{
   transform:scale(1.05);
 }
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  .projects{
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media(max-width:600px){
-  .container{
-    flex-direction:column;
-  }
-
-  .projects{
-    grid-template-columns: 1fr;
-  }
-}
 </style>
 
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<div class="navbar">
-  <a href="#">Home</a>
-  <a href="#" class="active">Projects</a>
-  <a href="#">Repository</a>
-  <a href="#">Photos</a>
-  <a href="#">Directory</a>
-  <a href="#">Notes</a>
-  <a href="#">Links</a>
-
-  <button class="logout">Logout</button>
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <a href="dashboard.html">🏠 Dashboard</a>
+  <a href="projects.html" class="active">📁 Projects</a>
+  <a href="repository.html">📂 Repository</a>
+  <a href="photos.html">📷 Photos</a>
+  <a href="directory.html">👥 Directory</a>
+  <a href="notes.html">📝 Notes</a>
+  <a href="links.html">🔗 Links</a>
+  <a href="contact.html">📞 Contact</a>
 </div>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="logo">⮟</div>
-  <div>
-    <h1>DocHub</h1>
-    <span>Projects</span>
-  </div>
-</div>
+<!-- MAIN -->
+<div class="main">
 
-<!-- CONTENT -->
-<div class="container">
-
-  <!-- ADD PROJECT -->
-  <div class="add-project" onclick="addProject()">
-    <h2>Add Project <span class="plus">+</span></h2>
-    <div class="arrow">→</div>
+  <!-- TOP RIGHT LOGOUT -->
+  <div class="topbar">
+    <button class="logout" onclick="logout()">Logout</button>
   </div>
 
-  <!-- PROJECT GRID -->
-  <div class="projects" id="projectContainer">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">⮟</div>
+    <div>
+      <h1>DocHub</h1>
+      <span>Projects</span>
+    </div>
+  </div>
 
-    <div class="card" ondblclick="renameProject(this)">Project 1</div>
-    <div class="card" ondblclick="renameProject(this)">Project 2</div>
-    <div class="card" ondblclick="renameProject(this)">Project 3</div>
+  <!-- CONTENT -->
+  <div class="container">
 
-    <div class="card dark" ondblclick="renameProject(this)">Project 4</div>
-    <div class="card dark" ondblclick="renameProject(this)">Project 5</div>
-    <div class="card dark" ondblclick="renameProject(this)">Project 6</div>
+    <!-- ADD PROJECT -->
+    <div class="add-project" onclick="addProject()">
+      <h2>Add Project +</h2>
+      <div style="align-self:flex-end;font-size:30px;">→</div>
+    </div>
+
+    <!-- PROJECT GRID -->
+    <div class="projects" id="projectContainer">
+
+      <div class="card" ondblclick="renameProject(this)">Project 1</div>
+      <div class="card">Project 2</div>
+      <div class="card">Project 3</div>
+
+      <div class="card dark">Project 4</div>
+      <div class="card dark">Project 5</div>
+      <div class="card dark">Project 6</div>
+
+    </div>
 
   </div>
 
@@ -231,31 +215,28 @@ body{
 // ADD PROJECT
 function addProject(){
   let name = prompt("Enter project name:");
+  if(name){
+    let div = document.createElement("div");
+    div.className = "card";
+    div.innerText = name;
+    div.ondblclick = function(){ renameProject(this); };
 
-  if(name && name.trim() !== ""){
-    let container = document.getElementById("projectContainer");
-
-    let newCard = document.createElement("div");
-    newCard.className = "card";
-    newCard.innerText = name;
-
-    // enable rename
-    newCard.ondblclick = function(){
-      renameProject(this);
-    };
-
-    container.appendChild(newCard);
+    document.getElementById("projectContainer").appendChild(div);
   }
 }
 
-// RENAME PROJECT (DOUBLE CLICK)
+// RENAME
 function renameProject(card){
-  let currentName = card.innerText;
-  let newName = prompt("Rename project:", currentName);
-
-  if(newName && newName.trim() !== ""){
+  let newName = prompt("Rename project:", card.innerText);
+  if(newName){
     card.innerText = newName;
   }
+}
+
+// LOGOUT
+function logout(){
+  alert("Logging out...");
+  window.location.href = "index.html";
 }
 
 </script>
