@@ -1,34 +1,217 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Projects - DocHub</title>
-  <link rel="stylesheet" href="style.css">
+<title>DocHub Projects</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family: Arial, sans-serif;
+}
+
+/* BACKGROUND */
+body{
+  background: url("bg.jpg") no-repeat center center/cover;
+  height:100vh;
+}
+
+/* NAVBAR */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:black;
+  padding:10px 20px;
+}
+
+.navbar a{
+  color:white;
+  text-decoration:none;
+  margin:0 10px;
+  font-size:14px;
+}
+
+.navbar a:hover{
+  text-decoration:underline;
+}
+
+.logout{
+  background:#ddd;
+  border:none;
+  padding:6px 12px;
+  cursor:pointer;
+}
+
+/* HEADER */
+.header{
+  padding:40px;
+  color:white;
+}
+
+.header h1{
+  font-size:48px;
+}
+
+.header h2{
+  font-weight:300;
+}
+
+/* MAIN GRID */
+.container{
+  display:flex;
+  gap:20px;
+  padding:20px 40px;
+}
+
+/* ADD PROJECT PANEL */
+.add-project{
+  width:260px;
+  height:420px;
+  background:#1e88e5;
+  color:white;
+  padding:20px;
+  position:relative;
+  border-radius:6px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.add-project:hover{
+  background:#1565c0;
+}
+
+.add-project h2{
+  font-size:28px;
+}
+
+.add-project .plus{
+  font-size:30px;
+  float:right;
+}
+
+.arrow{
+  align-self:flex-end;
+  border:2px solid white;
+  border-radius:50%;
+  width:50px;
+  height:50px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+}
+
+/* PROJECT GRID */
+.projects{
+  flex:1;
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:20px;
+}
+
+/* CARDS */
+.card{
+  height:180px;
+  background:rgba(255,255,255,0.9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  color:#0d3c6e;
+  border-radius:6px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.card.dark{
+  background:#0d3c6e;
+  color:white;
+}
+
+.card:hover{
+  transform:scale(1.05);
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .projects{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media(max-width:600px){
+  .container{
+    flex-direction:column;
+  }
+
+  .projects{
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
 </head>
 
-<body onload="checkLogin()">
+<body>
 
+<!-- NAVBAR -->
 <div class="navbar">
-  <div class="logo">DocHub</div>
-
-  <a href="dashboard.html">Home</a>
-  <a href="projects.html">Projects</a>
-  <a href="directory.html">Updated Directory</a>
-  <a href="photos.html">Photo Documentation</a>
-  <a href="repository.html">Document Repository</a>
-  <a href="travel-order.html">Travel Order</a>
-  <a href="travel-plan.html">Travel Plan</a>
-  <a href="links.html">Links</a>
-  <a href="notes.html">Notes</a>
-  <a href="contact.html">Contact</a>
-
-  <button class="logout" onclick="logout()">Logout</button>
+  <div>
+    <a href="dashboard.html">Home</a>
+    <a href="#">Projects</a>
+    <a href="#">Updated Directory</a>
+    <a href="#">Photo documentation</a>
+    <a href="#">Document Repository</a>
+    <a href="#">Travel Order</a>
+    <a href="#">Consolidated Travel Plans</a>
+    <a href="#">Links</a>
+    <a href="#">Notes</a>
+    <a href="#">Videos</a>
+    <a href="#">Contact</a>
+  </div>
+  <button class="logout">Logout</button>
 </div>
 
-<div class="content">
-  <h1>📊 Projects</h1>
-  
+<!-- HEADER -->
+<div class="header">
+  <h1>DocHub</h1>
+  <h2>Projects</h2>
 </div>
 
-<script src="script.js"></script>
+<!-- CONTENT -->
+<div class="container">
+
+  <!-- ADD PROJECT -->
+  <div class="add-project" onclick="addProject()">
+    <h2>Add Project <span class="plus">+</span></h2>
+    <div class="arrow">→</div>
+  </div>
+
+  <!-- PROJECT CARDS -->
+  <div class="projects">
+
+    <div class="card">Project 1</div>
+    <div class="card">Project 2</div>
+    <div class="card">Project 3</div>
+
+    <div class="card dark">Project 4</div>
+    <div class="card dark">Project 5</div>
+    <div class="card dark">Project 6</div>
+
+  </div>
+
+</div>
+
+<script>
+function addProject(){
+  alert("Add Project Clicked!");
+}
+</script>
+
 </body>
 </html>
