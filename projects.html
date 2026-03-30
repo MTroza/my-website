@@ -25,6 +25,7 @@ body{background:url("bg.jpg") no-repeat center center/cover;height:100vh;}
 </head>
 <body>
 
+<!-- TOP MENU -->
 <div class="topbar">
   <div class="menu">
     <a href="dashboard.html">Home</a>
@@ -39,6 +40,7 @@ body{background:url("bg.jpg") no-repeat center center/cover;height:100vh;}
   <button class="logout" onclick="logout()">Logout</button>
 </div>
 
+<!-- HEADER -->
 <div class="header">
   <div class="logo">⮟</div>
   <div>
@@ -47,6 +49,7 @@ body{background:url("bg.jpg") no-repeat center center/cover;height:100vh;}
   </div>
 </div>
 
+<!-- CONTENT -->
 <div class="container">
   <div class="add-project" onclick="addProject()">
     <h2>Add Project +</h2>
@@ -56,9 +59,10 @@ body{background:url("bg.jpg") no-repeat center center/cover;height:100vh;}
 </div>
 
 <script>
+// ✅ Google Apps Script Web App URL
 const API_URL = "https://script.google.com/macros/s/AKfycbwP7zLQoFsbYzfvW22j4sXs8lcDrgkd2NHC2-6kWItyW4BiIwnANdGpMWMA2pNDknD7/exec";
 
-// Fade-in helper
+// Fade-in animation helper
 function fadeIn(el){
   requestAnimationFrame(() => el.classList.add('visible'));
 }
@@ -137,8 +141,17 @@ async function renameProject(card){
   }
 }
 
-function logout(){ window.location.href = "index.html"; }
+// 🔓 Fixed logout
+function logout(){
+  // Clear session/local storage for login
+  localStorage.removeItem("loggedInUser");
+  sessionStorage.removeItem("loggedInUser");
 
+  // Redirect to login page
+  window.location.href = "index.html";
+}
+
+// Auto-load projects on page open
 window.onload = loadProjects;
 </script>
 
