@@ -91,7 +91,6 @@ body{
 
 .add-project .plus{
   font-size:30px;
-  float:right;
 }
 
 .arrow{
@@ -126,6 +125,8 @@ body{
   border-radius:6px;
   cursor:pointer;
   transition:0.3s;
+  text-align:center;
+  padding:10px;
 }
 
 .card.dark{
@@ -193,25 +194,42 @@ body{
   </div>
 
   <!-- PROJECT CARDS -->
-  <div class="projects">
+  <div class="projects" id="projectContainer">
 
-  <div class="card" ondblclick="renameProject(this)">Project 1</div>
-  <div class="card" ondblclick="renameProject(this)">Project 2</div>
-  <div class="card" ondblclick="renameProject(this)">Project 3</div>
+    <div class="card" ondblclick="renameProject(this)">Project 1</div>
+    <div class="card" ondblclick="renameProject(this)">Project 2</div>
+    <div class="card" ondblclick="renameProject(this)">Project 3</div>
 
-  <div class="card dark" ondblclick="renameProject(this)">Project 4</div>
-  <div class="card dark" ondblclick="renameProject(this)">Project 5</div>
-  <div class="card dark" ondblclick="renameProject(this)">Project 6</div>
+    <div class="card dark" ondblclick="renameProject(this)">Project 4</div>
+    <div class="card dark" ondblclick="renameProject(this)">Project 5</div>
+    <div class="card dark" ondblclick="renameProject(this)">Project 6</div>
 
   </div>
 
 </div>
 
 <script>
+// ADD PROJECT
 function addProject(){
-  alert("Add Project Clicked!");
+  let name = prompt("Enter project name:");
+
+  if(name && name.trim() !== ""){
+    let container = document.getElementById("projectContainer");
+
+    let newCard = document.createElement("div");
+    newCard.className = "card";
+    newCard.innerText = name;
+
+    // make it renamable
+    newCard.ondblclick = function(){
+      renameProject(this);
+    };
+
+    container.appendChild(newCard);
+  }
 }
-  <script>
+
+// RENAME PROJECT
 function renameProject(card){
   let currentName = card.innerText;
   let newName = prompt("Rename project:", currentName);
@@ -220,7 +238,6 @@ function renameProject(card){
     card.innerText = newName;
   }
 }
-</script>
 </script>
 
 </body>
